@@ -1,0 +1,75 @@
+# Gram Saathi — .gitignore
+
+# ─── Secrets ─────────────────────────────────────────────────────────────────
+.env
+*.env
+.env.*
+!.env.example
+
+# ─── Document Storage (never commit uploaded documents) ───────────────────────
+storage/
+!storage/.gitkeep
+
+# ─── Database files ──────────────────────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+
+# ─── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# ─── Node / Frontend ─────────────────────────────────────────────────────────
+node_modules/
+frontend/dist/
+frontend/.vite/
+*.tsbuildinfo
+
+# ─── OS ──────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── IDE ─────────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# ─── Alembic ─────────────────────────────────────────────────────────────────
+# Keep alembic.ini and versions/ in git; exclude generated pycache
+database/alembic/__pycache__/
+
+# ─── Logs ────────────────────────────────────────────────────────────────────
+*.log
+logs/
