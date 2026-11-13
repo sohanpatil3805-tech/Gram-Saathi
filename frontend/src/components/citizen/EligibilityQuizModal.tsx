@@ -198,6 +198,14 @@ export const EligibilityQuizModal: React.FC<EligibilityQuizModalProps> = ({
           ) : (
             /* Results Screen */
             <div className="space-y-4 animate-fade-in">
+              {/* Prototype Indicative Assessment Notice */}
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-900 flex items-start space-x-2">
+                <ShieldCheck className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                <p className="leading-snug">
+                  <strong>ಪ್ರೊಟೋಟೈಪ್ ಪ್ರಾಥಮಿಕ ಅಂದಾಜು:</strong> ಇದು ಕೇವಲ ಕಂಪ್ಯೂಟರ್ ಆಧಾರಿತ ನಿಯಮಗಳ ಹೊಂದಾಣಿಕೆ ಅಂದಾಜಾಗಿದ್ದು, ಅಧಿಕೃತ ಅರ್ಹತೆಯ ದೃಢೀಕರಣವಲ್ಲ. ಅಂತಿಮ ನಿರ್ಧಾರವು ಸರ್ಕಾರಿ ಅಧಿಕಾರಿಗಳ ಕ್ಷೇತ್ರ ಪರಿಶೀಲನೆಗೆ ಒಳಪಟ್ಟಿರುತ್ತದೆ.
+                </p>
+              </div>
+
               {/* Score banner */}
               <div
                 className={`p-4 rounded-xl border text-center ${
@@ -213,13 +221,13 @@ export const EligibilityQuizModal: React.FC<EligibilityQuizModalProps> = ({
                     <AlertCircle className="w-7 h-7 text-amber-600" />
                   )}
                 </div>
-                <h3 className="font-bold text-base">
+                <h3 className="font-bold text-sm sm:text-base">
                   {assessmentResult.eligible
-                    ? t('eligibleSuccess')
-                    : t('notEligibleAlert')}
+                    ? 'ಪ್ರಾಥಮಿಕ ಷರತ್ತುಗಳು ಸರಿಹೊಂದಿವೆ (Indicative Rules Satisfied)'
+                    : 'ಕೆಲವು ಷರತ್ತುಗಳು ಅಪೂರ್ಣವಾಗಿವೆ (Indicative Gaps Detected)'}
                 </h3>
-                <p className="text-xs mt-1">
-                  {t('eligibilityScore')}: <strong className="font-bold">{assessmentResult.score}%</strong> ({assessmentResult.confidence} Confidence)
+                <p className="text-xs mt-1 text-slate-700">
+                  ಹೊಂದಾಣಿಕೆ ಅಂದಾಜು: <strong className="font-bold font-mono">{assessmentResult.score}%</strong> ({assessmentResult.confidence} Confidence - Indicative Only)
                 </p>
               </div>
 

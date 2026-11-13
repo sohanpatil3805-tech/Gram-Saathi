@@ -52,9 +52,9 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
 
           <div className="p-4 space-y-3.5 text-center">
             {/* Reference Badge */}
-            <div className="py-2 px-3 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded">
-                SIMULATED SUBMISSION
+            <div className="py-2.5 px-3 bg-amber-50 border border-amber-300 rounded-xl space-y-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2 py-0.5 rounded font-mono">
+                SIMULATED PROTOTYPE SUBMISSION (ಅಧಿಕೃತ ಸಲ್ಲಿಕೆಯಲ್ಲ)
               </span>
               <p className="text-xs text-slate-600">
                 {t('applicationReferenceNumber')}
@@ -70,11 +70,11 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
 
             {/* Notification alert */}
             <div className="bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-left flex items-start space-x-2 text-xs text-slate-700">
-              <Smartphone className="w-4 h-4 text-whatsapp-teal flex-shrink-0 mt-0.5" />
+              <Smartphone className="w-4 h-4 text-saathi-700 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-bold text-slate-900">ವಾಟ್ಸಾಪ್ ಸಂದೇಶ ರವಾನೆಯಾಗಿದೆ</p>
+                <p className="font-bold text-slate-900">PWA ಆ್ಯಪ್ ಅಧಿಸೂಚನೆ (Notification)</p>
                 <p className="text-[11px] text-slate-500">
-                  ನಿಮ್ಮ ಅರ್ಜಿಯ ಸ್ಥಿತಿಯ ಪ್ರತಿಯೊಂದು ಹಂತದಲ್ಲೂ +91 98765-XXXX0 ಗೆ ವಾಟ್ಸಾಪ್ ನೋಟಿಫಿಕೇಶನ್ ಕಳುಹಿಸಲಾಗುತ್ತದೆ.
+                  ನಿಮ್ಮ ಅರ್ಜಿಯ ಸ್ಥಿತಿಯ ಪ್ರತಿಯೊಂದು ಹಂತದಲ್ಲೂ PWA ಆ್ಯಪ್ ಮತ್ತು ಮೊಬೈಲ್ ಸಂಖ್ಯೆಗೆ ಅಧಿಸೂಚನೆ ಕಳುಹಿಸಲಾಗುತ್ತದೆ.
                 </p>
               </div>
             </div>

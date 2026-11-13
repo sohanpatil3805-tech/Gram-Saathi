@@ -27,10 +27,10 @@ export const OfficerDecisionModal: React.FC<OfficerDecisionModalProps> = ({
   applicantName,
 }) => {
   const [decisionType, setDecisionType] = useState<'APPROVE' | 'REJECT' | 'REQUEST_CORRECTION'>('APPROVE');
-  const [orderNumber, setOrderNumber] = useState(`KA-MND-AGR-2024-${Math.floor(1000 + Math.random() * 9000)}`);
+  const [orderNumber, setOrderNumber] = useState(`DEMO-ORDER-KA-MND-2024-${Math.floor(1000 + Math.random() * 9000)}`);
   const [rejectionReason, setRejectionReason] = useState('Land holding exceeds scheme threshold limit.');
   const [correctionField, setCorrectionField] = useState('LAND_RECORD');
-  const [remarks, setRemarks] = useState('Land records verified with Bhoomi portal database. Recommended for approval.');
+  const [remarks, setRemarks] = useState('Demo verification: land holding matches simulated criteria.');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
@@ -60,10 +60,13 @@ export const OfficerDecisionModal: React.FC<OfficerDecisionModalProps> = ({
         {/* Header */}
         <div className="bg-slate-900 text-white px-4 py-3.5 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <ShieldCheck className="w-5 h-5 text-emerald-400" />
+            <ShieldCheck className="w-5 h-5 text-amber-400" />
             <div>
-              <h2 className="font-bold text-sm">
-                ಅಧಿಕೃತ ಆದೇಶ & ನಿರ್ಧಾರ ದಾಖಲಿಸಿ (Official Decision)
+              <h2 className="font-bold text-sm flex items-center space-x-1.5">
+                <span>ಡೆಮೊ ಅಧಿಕಾರಿ ನಿರ್ಧಾರ</span>
+                <span className="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1.5 py-0.5 rounded font-mono">
+                  SIMULATED DEMO
+                </span>
               </h2>
               <p className="text-[11px] text-slate-300 font-mono">
                 {applicationReference} • {applicantName}
@@ -80,17 +83,25 @@ export const OfficerDecisionModal: React.FC<OfficerDecisionModalProps> = ({
 
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-4 overflow-y-auto space-y-4">
+          {/* Explicit Simulation Disclaimer */}
+          <div className="bg-amber-50 border border-amber-300 rounded-xl p-3 text-xs text-amber-950 flex items-start space-x-2">
+            <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+            <p className="leading-snug">
+              <strong>ಹ್ಯಾಕಥಾನ್ ಡೆಮೊ ಸೂಚನೆ:</strong> ಇದು ಕೇವಲ ಪ್ರೊಟೋಟೈಪ್ ಸಿಮ್ಯುಲೇಶನ್ ಆಗಿದೆ. ಇಲ್ಲಿ ದಾಖಲಿಸಲಾಗುವ ಆದೇಶಗಳು ಅಧಿಕೃತ ಸರ್ಕಾರಿ ಅಥವಾ ಶಾಸನಬದ್ಧ ಮಂಜೂರಾತಿಯನ್ನು ಪ್ರತಿನಿಧಿಸುವುದಿಲ್ಲ.
+            </p>
+          </div>
+
           {/* Decision Type Buttons */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-              ನಿರ್ಧಾರದ ಪ್ರಕಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ (Decision Type):
+              ಸಿಮ್ಯುಲೇಟೆಡ್ ನಿರ್ಧಾರದ ಪ್ರಕಾರ (Simulated Decision):
             </label>
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => {
                   setDecisionType('APPROVE');
-                  setRemarks('Land records verified with Bhoomi portal database. Recommended for approval.');
+                  setRemarks('Demo verification: land holding matches simulated criteria.');
                 }}
                 className={`py-2 px-2.5 rounded-lg border text-xs font-bold flex flex-col items-center justify-center space-y-1 transition-all ${
                   decisionType === 'APPROVE'
@@ -99,7 +110,7 @@ export const OfficerDecisionModal: React.FC<OfficerDecisionModalProps> = ({
                 }`}
               >
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>ಅನುಮೋದನೆ (Approve)</span>
+                <span>ಡೆಮೊ ಅನುಮೋದನೆ</span>
               </button>
 
               <button
@@ -115,7 +126,7 @@ export const OfficerDecisionModal: React.FC<OfficerDecisionModalProps> = ({
                 }`}
               >
                 <AlertTriangle className="w-4 h-4 text-amber-600" />
-                <span>ತಿದ್ದುಪಡಿ ಸೂಚಿಸಿ</span>
+                <span>ಡೆಮೊ ತಿದ್ದುಪಡಿ</span>
               </button>
 
               <button
@@ -131,7 +142,7 @@ export const OfficerDecisionModal: React.FC<OfficerDecisionModalProps> = ({
                 }`}
               >
                 <XCircle className="w-4 h-4 text-rose-600" />
-                <span>ತಿರಸ್ಕಾರ (Reject)</span>
+                <span>ಡೆಮೊ ತಿರಸ್ಕಾರ</span>
               </button>
             </div>
           </div>

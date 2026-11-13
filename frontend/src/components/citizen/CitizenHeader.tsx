@@ -3,8 +3,6 @@ import { useLanguage } from '../../context/LanguageContext';
 import { 
   Languages, 
   Download, 
-  Smartphone, 
-  MessageSquare, 
   ShieldCheck, 
   RotateCcw,
   ExternalLink
@@ -12,14 +10,10 @@ import {
 import { Link } from 'react-router-dom';
 
 interface CitizenHeaderProps {
-  viewMode: 'chat' | 'whatsapp';
-  onToggleViewMode: () => void;
   onResetChat: () => void;
 }
 
 export const CitizenHeader: React.FC<CitizenHeaderProps> = ({
-  viewMode,
-  onToggleViewMode,
   onResetChat,
 }) => {
   const { language, setLanguage, t } = useLanguage();
@@ -80,7 +74,7 @@ export const CitizenHeader: React.FC<CitizenHeaderProps> = ({
                 {t('appName')}
               </h1>
               <span className="text-[10px] bg-white/20 text-white font-medium px-1.5 py-0.5 rounded-full">
-                AI 2.0
+                PWA
               </span>
             </div>
             <p className="text-[11px] text-emerald-100 flex items-center space-x-1">
@@ -102,23 +96,6 @@ export const CitizenHeader: React.FC<CitizenHeaderProps> = ({
             <span>{language === 'kn' ? 'हिंदी' : 'ಕನ್ನಡ'}</span>
           </button>
 
-          {/* Simulator Mode Toggle */}
-          <button
-            onClick={onToggleViewMode}
-            className={`p-1.5 rounded-lg border transition-all ${
-              viewMode === 'whatsapp'
-                ? 'bg-whatsapp-green text-slate-900 border-white font-bold shadow'
-                : 'bg-white/15 hover:bg-white/25 text-white border-white/20'
-            }`}
-            title={viewMode === 'whatsapp' ? 'Switch to App UI' : 'Switch to WhatsApp Simulator'}
-          >
-            {viewMode === 'whatsapp' ? (
-              <Smartphone className="w-4 h-4" />
-            ) : (
-              <MessageSquare className="w-4 h-4" />
-            )}
-          </button>
-
           {/* PWA Install Button (conditional) */}
           {isInstallable && (
             <button
@@ -127,7 +104,7 @@ export const CitizenHeader: React.FC<CitizenHeaderProps> = ({
               title="Install App (PWA)"
             >
               <Download className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Install</span>
+              <span className="hidden sm:inline">Install PWA</span>
             </button>
           )}
 

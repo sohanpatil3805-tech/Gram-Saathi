@@ -60,10 +60,10 @@ export const kn = {
   no: 'ಇಲ್ಲ',
   casteCategory: 'ಸಾಮಾಜಿಕ ವರ್ಗ / ಜಾತಿ',
   evaluateEligibility: 'ಅರ್ಹತೆಯನ್ನು ಲೆಕ್ಕಹಾಕಿ',
-  eligibilityScore: 'ಹೊಂದಾಣಿಕೆ ಅಂಕ',
-  eligibleSuccess: 'ಅಭಿನಂದನೆಗಳು! ನೀವು ಈ ಯೋಜನೆಗೆ ಅರ್ಹರಾಗಿದ್ದೀರಿ.',
-  notEligibleAlert: 'ಗಮನಿಸಿ: ಕೆಲವು ನಿಯಮಗಳು ಹೊಂದಾಣಿಕೆಯಾಗುತ್ತಿಲ್ಲ.',
-  matchedCriteria: 'ಹೊಂದಿಕೆಯಾದ ನಿಯಮಗಳು',
+  eligibilityScore: 'ಪ್ರಾಥಮಿಕ ಹೊಂದಾಣಿಕೆ ಅಂದಾಜು',
+  eligibleSuccess: 'ಪ್ರಾಥಮಿಕ ಷರತ್ತುಗಳು ಸರಿಹೊಂದಿವೆ [ಪ್ರೊಟೋಟೈಪ್ ಅಂದಾಜು — ಅಧಿಕೃತ ಅರ್ಹತೆಯಲ್ಲ].',
+  notEligibleAlert: 'ಗಮನಿಸಿ: ಕೆಲವು ಪ್ರಾಥಮಿಕ ನಿಯಮಗಳು ಹೊಂದಾಣಿಕೆಯಾಗುತ್ತಿಲ್ಲ.',
+  matchedCriteria: 'ಹೊಂದಿಕೆಯಾದ ಪ್ರಾಥಮಿಕ ನಿಯಮಗಳು',
   unmetCriteria: 'ಅಪೂರ್ಣ ನಿಯಮಗಳು',
 
   // Documents & OCR
@@ -94,9 +94,9 @@ export const kn = {
   consentNotice: 'ನಾನು ಒದಗಿಸಿರುವ ಎಲ್ಲಾ ವಿವರಗಳು ನಿಜವೆಂದು ಘೋಷಿಸುತ್ತೇನೆ.',
   confirmAndSubmit: 'ಅಂತಿಮವಾಗಿ ದೃಢೀಕರಿಸಿ & ಸಲ್ಲಿಸಿ',
   simulatedWarning: 'ಸೂಚನೆ: ಇದು ಡೆಮೊ ಸಲ್ಲಿಕೆಯಾಗಿದ್ದು, ಸಿಮ್ಯುಲೇಟೆಡ್ ರೆಫರೆನ್ಸ್ ರಚಿಸುತ್ತದೆ.',
-  submissionSuccessful: 'ಅರ್ಜಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ!',
-  applicationReferenceNumber: 'ಅರ್ಜಿ ಉಲ್ಲೇಖ ಸಂಖ್ಯೆ:',
-  statusSubmittedNotice: 'ನಿಮ್ಮ ಅರ್ಜಿಯನ್ನು ಪರಿಶೀಲನೆಗಾಗಿ ಗ್ರಾಮ ಪಂಚಾಯತಿ ಅಧಿಕಾರಿಗೆ ಕಳುಹಿಸಲಾಗಿದೆ.',
+  submissionSuccessful: 'ಅರ್ಜಿ ಪ್ರೊಟೋಟೈಪ್ ಸಲ್ಲಿಕೆಯಾಗಿದೆ (ಡೆಮೊ ಸಿಮ್ಯುಲೇಶನ್)',
+  applicationReferenceNumber: 'ಅರ್ಜಿ ಉಲ್ಲೇಖ ಸಂಖ್ಯೆ (Simulated Ref):',
+  statusSubmittedNotice: 'ನಿಮ್ಮ ಅರ್ಜಿಯನ್ನು ಡೆಮೊ ಪರಿಶೀಲನೆಗೆ ರವಾನಿಸಲಾಗಿದೆ. ಇದು ಕೇವಲ ಸಾಫ್ಟ್‌ವೇರ್ ಪ್ರಾತ್ಯಕ್ಷಿಕೆಗಾಗಿ ಮಾತ್ರ.',
 
   // Status Tracker
   trackApplication: 'ಅರ್ಜಿಯ ಸ್ಥಿತಿ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ',

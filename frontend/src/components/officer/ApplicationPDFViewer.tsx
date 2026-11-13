@@ -47,20 +47,25 @@ export const ApplicationPDFViewer: React.FC<ApplicationPDFViewerProps> = ({
         </div>
 
         {/* The Printable Official PDF Sheet */}
-        <div className="p-6 sm:p-8 overflow-y-auto space-y-6 text-slate-900 font-sans bg-white print:p-0 print:m-0">
+        <div className="p-6 sm:p-8 overflow-y-auto space-y-6 text-slate-900 font-sans bg-white print:p-0 print:m-0 relative">
+          {/* Watermark Banner */}
+          <div className="bg-amber-100 border-2 border-amber-400 text-amber-950 p-2.5 rounded-lg text-center text-xs font-bold uppercase tracking-wider">
+            ⚠️ ಡೆಮೊ / ಪ್ರೊಟೋಟೈಪ್ ಸಿಮ್ಯುಲೇಶನ್ ಮಾತ್ರ — ಅಧಿಕೃತ ಸರ್ಕಾರಿ ದಾಖಲೆಯಲ್ಲ (DEMO / PROTOTYPE ONLY)
+          </div>
+
           {/* Header */}
           <div className="text-center border-b-2 border-slate-900 pb-4 space-y-1">
             <div className="w-12 h-12 mx-auto rounded-full border-2 border-slate-900 flex items-center justify-center mb-1">
               <Landmark className="w-7 h-7 text-slate-800" />
             </div>
             <p className="text-[11px] font-bold tracking-widest text-slate-600 uppercase">
-              GOVERNMENT OF KARNATAKA • ಪಂಚಾಯತ್ ರಾಜ್ & ಕೃಷಿ ಇಲಾಖೆ
+              GOVERNMENT OF KARNATAKA (PROTOTYPE DEMO) • ಪಂಚಾಯತ್ ರಾಜ್ & ಕೃಷಿ ಇಲಾಖೆ
             </p>
             <h1 className="text-base sm:text-lg font-extrabold tracking-tight">
-              ಗ್ರಾಮೀಣ ನಾಗರಿಕ ಕಲ್ಯಾಣ ಯೋಜನೆ ಅಧಿಕೃತ ಅರ್ಜಿ ಸಾರಾಂಶ
+              ಗ್ರಾಮೀಣ ನಾಗರಿಕ ಕಲ್ಯಾಣ ಯೋಜನೆ ಸಿಮ್ಯುಲೇಟೆಡ್ ಅರ್ಜಿ ಸಾರಾಂಶ
             </h1>
             <p className="text-xs text-slate-500 font-serif">
-              Form GS-A1 (Generated under Gram Saathi Platform)
+              Form GS-A1 (Simulated under Gram Saathi Hackathon Prototype)
             </p>
           </div>
 

@@ -19,11 +19,10 @@ import { EligibilityQuizModal } from '../../components/citizen/EligibilityQuizMo
 import { DocumentUploadModal } from '../../components/citizen/DocumentUploadModal';
 import { SubmissionSuccessModal } from '../../components/citizen/SubmissionSuccessModal';
 import { StatusTrackerModal } from '../../components/citizen/StatusTrackerModal';
-import { Sparkles, Bot, ShieldCheck, Smartphone } from 'lucide-react';
+import { Bot, ShieldCheck } from 'lucide-react';
 
 export const CitizenChatbotPage: React.FC = () => {
   const { t, language } = useLanguage();
-  const [viewMode, setViewMode] = useState<'chat' | 'whatsapp'>('chat');
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -172,14 +171,14 @@ export const CitizenChatbotPage: React.FC = () => {
   ) => {
     const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    // Bot response about assessment
+    // Bot response about assessment (clearly marked as indicative prototype assessment)
     const assessMsg: ChatMessageType = {
       id: `bot-assess-${Date.now()}`,
       sender: 'assistant',
       content:
         language === 'kn'
-          ? `ಅರ್ಹತಾ ಪರಿಶೀಲನೆ ಪೂರ್ಣಗೊಂಡಿದೆ! ನಿಮ್ಮ ಅರ್ಹತಾ ಸ್ಕೋರ್: ${result.score}%\n\nಈಗ ನಿಮ್ಮ ಆಧಾರ್ ಮತ್ತು ಪಹಣಿ (RTC) ದಾಖಲೆಗಳನ್ನು ಲಗತ್ತಿಸಿ.`
-          : `पात्रता जांच पूर्ण हुई! पात्रता स्कोर: ${result.score}%\n\nअब अपने आधार एवं भूमि अभिलेख अपलोड करें।`,
+          ? `ಪ್ರಾಥಮಿಕ ನಿಯಮಗಳ ಅಂದಾಜು ಪೂರ್ಣಗೊಂಡಿದೆ! ಹೊಂದಾಣಿಕೆ ಅಂದಾಜು: ${result.score}% [ಪ್ರೊಟೋಟೈಪ್ ಅಂದಾಜು — ಇದು ಅಧಿಕೃತ ಅರ್ಹತಾ ದೃಢೀಕರಣವಲ್ಲ].\n\nಅಧಿಕೃತ ನಿರ್ಧಾರವು ಇಲಾಖಾ ಪರಿಶೀಲನೆಯ ನಂತರವಷ್ಟೇ ಹೊರಬರುತ್ತದೆ. ಪರಿಶೀಲನೆಗಾಗಿ ಮಾದರಿ ಆಧಾರ್ ಮತ್ತು ಪಹಣಿ (RTC) ದಾಖಲೆಗಳನ್ನು ಲಗತ್ತಿಸಿ.`
+          : `प्रारंभिक नियमों का आकलन पूर्ण हुआ! अनुमानित मैच: ${result.score}% [प्रोटोटाइप अनुमान — यह आधिकारिक पात्रता पुष्टि नहीं है]।\n\nअंतिम स्वीकृति विभागीय सत्यापन पर निर्भर करेगी। समीक्षा हेतु आधार एवं भूमि अभिलेख संलग्न करें।`,
       contentType: 'text',
       timestamp: now,
     };
@@ -281,8 +280,8 @@ export const CitizenChatbotPage: React.FC = () => {
         sender: 'assistant',
         content:
           language === 'kn'
-            ? `ಅರ್ಜಿ ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಕೆಯಾಗಿದೆ! 🎉\n\nಅರ್ಜಿ ಉಲ್ಲೇಖ ಸಂಖ್ಯೆ: ${result.submission_reference}\nಸ್ಥಿತಿ: ಗ್ರಾಮ ಪಂಚಾಯತಿ ಅಧಿಕಾರಿ ಪರಿಶೀಲನೆಗೆ ರವಾನಿಸಲಾಗಿದೆ.`
-            : `आवेदन सफलतापूर्वक जमा हो गया! 🎉\n\nसंदर्भ संख्या: ${result.submission_reference}\nस्थिति: ग्राम पंचायत अधिकारी समीक्षा हेतु भेजा गया।`,
+            ? `ಅರ್ಜಿ ಪ್ರೊಟೋಟೈಪ್ ಸಲ್ಲಿಕೆಯಾಗಿದೆ! [ಸಿಮ್ಯುಲೇಟೆಡ್ ಡೆಮೊ — ಅಧಿಕೃತ ಸರ್ಕಾರಿ ಸಲ್ಲಿಕೆಯಲ್ಲ]\n\nಅರ್ಜಿ ಉಲ್ಲೇಖ ಸಂಖ್ಯೆ: ${result.submission_reference}\nಸ್ಥಿತಿ: ಸಿಮ್ಯುಲೇಟೆಡ್ ಅಧಿಕಾರಿ ಪರಿಶೀಲನಾ ಕ್ಯೂಗೆ ರವಾನಿಸಲಾಗಿದೆ.`
+            : `आवेदन प्रोटोटाइप जमा हुआ! [सिम्युलेटेड डेमो — आधिकारिक सरकारी आवेदन नहीं]\n\nसंदर्भ संख्या: ${result.submission_reference}\nस्थिति: सिम्युलेटेड अधिकारी समीक्षा कतार में प्रेषित।`,
         contentType: 'submission_receipt',
         submissionResult: result,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -297,19 +296,9 @@ export const CitizenChatbotPage: React.FC = () => {
   };
 
   return (
-    <div
-      className={`min-h-screen flex flex-col ${
-        viewMode === 'whatsapp' ? 'bg-[#ECE5DD]' : 'bg-slate-50'
-      }`}
-    >
-      {/* Sticky Header with Brand, Lang Switcher & Modes */}
-      <CitizenHeader
-        viewMode={viewMode}
-        onToggleViewMode={() =>
-          setViewMode(viewMode === 'chat' ? 'whatsapp' : 'chat')
-        }
-        onResetChat={initGreeting}
-      />
+    <div className="min-h-screen flex flex-col bg-slate-50">
+      {/* Mobile-First PWA Sticky Header */}
+      <CitizenHeader onResetChat={initGreeting} />
 
       {/* Suggested Questions Ribbon */}
       <QuickSuggestions onSelectSuggestion={handleSendMessage} />

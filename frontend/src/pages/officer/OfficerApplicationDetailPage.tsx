@@ -61,10 +61,10 @@ export const OfficerApplicationDetailPage: React.FC = () => {
 
     const msg =
       payload.decision === 'APPROVE'
-        ? `ಅರ್ಜಿ ಅನುಮೋದಿಸಲಾಗಿದೆ! ಅಧಿಕೃತ ಆದೇಶ ಸಂಖ್ಯೆ ${payload.official_order_number} ರಚಿಸಲಾಗಿದೆ ಮತ್ತು ವಾಟ್ಸಾಪ್ ಮೂಲಕ ಅರ್ಜಿದಾರರಿಗೆ ರವಾನಿಸಲಾಗಿದೆ.`
+        ? `ಡೆಮೊ ಅನುಮೋದನೆ ದಾಖಲಾಗಿದೆ! [ಸಿಮ್ಯುಲೇಟೆಡ್ ಆದೇಶ ಸಂಖ್ಯೆ: ${payload.official_order_number}] — ಇದು ಹ್ಯಾಕಥಾನ್ ಡೆಮೊ ಮಾತ್ರ, ನೈಜ ಸರ್ಕಾರಿ ಮಂಜೂರಾತಿಯಲ್ಲ.`
         : payload.decision === 'REJECT'
-        ? `ಅರ್ಜಿ ತಿರಸ್ಕರಿಸಲಾಗಿದೆ. ಕಾರಣ: "${payload.rejection_reason}". ನಾಗರಿಕರಿಗೆ ವಾಟ್ಸಾಪ್ ಅಧಿಸೂಚನೆ ಕಳುಹಿಸಲಾಗಿದೆ.`
-        : `ತಿದ್ದುಪಡಿ ವಿನಂತಿ ಕಳುಹಿಸಲಾಗಿದೆ. ದಾಖಲೆ ಮರು-ಅಪ್‌ಲೋಡ್ ಲಿಂಕ್ ನಾಗರಿಕರ ವಾಟ್ಸಾಪ್‌ಗೆ ತಲುಪಿದೆ.`;
+        ? `ಡೆಮೊ ತಿರಸ್ಕಾರ ದಾಖಲಾಗಿದೆ! [ಕಾರಣ: ${payload.rejection_reason}] — ಸಿಮ್ಯುಲೇಟೆಡ್ ಅಧಿಸೂಚನೆ ರವಾನಿಸಲಾಗಿದೆ.`
+        : `ಡೆಮೊ ತಿದ್ದುಪಡಿ ವಿನಂತಿ ದಾಖಲಾಗಿದೆ! ಸಿಮ್ಯುಲೇಟೆಡ್ ಮರು-ಅಪ್‌ಲೋಡ್ ಪ್ರಾಂಪ್ಟ್ ಕಳುಹಿಸಲಾಗಿದೆ.`;
 
     setNotificationBanner(msg);
   };
@@ -147,14 +147,17 @@ export const OfficerApplicationDetailPage: React.FC = () => {
         {/* Header Summary Card */}
         <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="space-y-1">
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="text-[11px] font-mono font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
                 REF: {application.application_reference}
               </span>
+              <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
+                SIMULATED DEMO CASE
+              </span>
               <StatusBadge status={application.status} />
               {application.official_order_number && (
-                <span className="text-[11px] font-mono font-bold bg-emerald-100 text-emerald-900 px-2 py-0.5 rounded">
-                  ಆದೇಶ: {application.official_order_number}
+                <span className="text-[11px] font-mono font-bold bg-emerald-100 text-emerald-900 px-2 py-0.5 rounded border border-emerald-300">
+                  ಡೆಮೊ ಆದೇಶ: {application.official_order_number}
                 </span>
               )}
             </div>
@@ -169,11 +172,13 @@ export const OfficerApplicationDetailPage: React.FC = () => {
           </div>
 
           <div className="bg-saathi-50 border border-saathi-200 rounded-xl p-3 text-center sm:text-right">
-            <p className="text-[11px] text-saathi-800 font-semibold uppercase">ಅರ್ಹತಾ ತಾಳೆ ಸ್ಕೋರ್</p>
+            <p className="text-[11px] text-saathi-800 font-semibold uppercase">
+              ಪ್ರಾಥಮಿಕ ಹೊಂದಾಣಿಕೆ ಅಂದಾಜು
+            </p>
             <p className="text-2xl font-extrabold text-saathi-950 font-mono">
               {application.eligibility_score}%
             </p>
-            <p className="text-[10px] text-emerald-700 font-medium">ಅರ್ಹತಾ ನಿಯಮಗಳು ಹೊಂದಿಕೆಯಾಗಿವೆ</p>
+            <p className="text-[10px] text-slate-500 font-medium">ಪ್ರೊಟೋಟೈಪ್ ಅಂದಾಜು (ಅಧಿಕೃತ ಮಂಜೂರಾತಿಯಲ್ಲ)</p>
           </div>
         </div>
 

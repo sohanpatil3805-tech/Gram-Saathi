@@ -30,14 +30,21 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
         navigateFallback: '/index.html',
-        // Do not cache sensitive citizen documents or API routes
-        navigateFallbackDenylist: [/^\/api\//, /^\/storage\//],
+        // Strictly prevent caching of private citizen documents, uploads, or API routes
+        navigateFallbackDenylist: [/^\/api\//, /^\/storage\//, /^\/documents\//, /\/document\//],
         runtimeCaching: [
           {
-            urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
-            handler: 'NetworkOnly', // Never cache private citizen APIs in SW
-          }
-        ]
+            // Zero-caching rule for private citizen documents, uploads, and APIs
+            urlPattern: ({ url }) =>
+              url.pathname.startsWith('/api') ||
+              url.pathname.startsWith('/storage') ||
+              url.pathname.includes('/document'),
+            handler: 'NetworkOnly',
+            options: {
+              backgroundSync: undefined,
+            },
+          },
+        ],
       }
     })
   ],
