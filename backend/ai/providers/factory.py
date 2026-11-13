@@ -55,12 +55,14 @@ def create_ai_provider(
 def get_ai_provider() -> BaseAIProvider:
     """
     Cached singleton provider instance based on application settings.
-    If simulation_mode is enabled and GEMINI_API_KEY is not provided,
-    falls back to MockAIProvider smoothly without crashing the server.
+
+    A missing Gemini key remains visible to the caller as an actionable
+    configuration error; production chat must never silently impersonate an
+    AI response with the simulated provider.
     """
     return create_ai_provider(
         provider_type="gemini",
-        fallback_to_mock_if_unconfigured=settings.simulation_mode,
+        fallback_to_mock_if_unconfigured=False,
     )
 
 

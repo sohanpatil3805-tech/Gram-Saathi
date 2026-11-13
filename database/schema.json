@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Gram Saathi Scheme Knowledge Base",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "scope",
+    "last_updated",
+    "sources",
+    "schemes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "state",
+        "beneficiary_groups"
+      ],
+      "properties": {
+        "state": {
+          "const": "Karnataka"
+        },
+        "beneficiary_groups": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "farmers",
+              "students"
+            ]
+          }
+        }
+      }
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date"
+    },
+    "sources": {
+      "type": "array"
+    },
+    "schemes": {
+      "type": "array"
+    }
+  }
+}

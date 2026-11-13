@@ -1,0 +1,325 @@
+{
+  "schema_version": "1.0.0",
+  "scope": {
+    "state": "Karnataka",
+    "beneficiary_groups": [
+      "farmers",
+      "students"
+    ]
+  },
+  "last_updated": "2026-11-13",
+  "sources": [
+    {
+      "source_id": "SRC_PMKISAN_GUIDELINES",
+      "title": "PM-KISAN Operational Guidelines",
+      "publisher": "Department of Agriculture and Farmers Welfare, Government of India",
+      "url": "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines%28English%29.pdf",
+      "supports": [
+        "PM-KISAN annual benefit",
+        "landholding farmer-family definition",
+        "exclusion categories"
+      ],
+      "source_type": "official_guideline"
+    },
+    {
+      "source_id": "SRC_PMKISAN_PORTAL",
+      "title": "PM-KISAN official portal",
+      "publisher": "Department of Agriculture and Farmers Welfare, Government of India",
+      "url": "https://pmkisan.gov.in/",
+      "supports": [
+        "e-KYC mandatory notice",
+        "current beneficiary status information",
+        "official registration and status channel"
+      ],
+      "source_type": "official_portal"
+    },
+    {
+      "source_id": "SRC_PMFBy_GUIDELINES",
+      "title": "PMFBY Revised Operational Guidelines",
+      "publisher": "Ministry of Agriculture and Farmers Welfare, Government of India",
+      "url": "https://pmfby.gov.in/pdf/Revised_Operational_Guidelines.pdf",
+      "supports": [
+        "notified crop/area condition",
+        "insurable interest",
+        "sharecropper and tenant farmer provisions"
+      ],
+      "source_type": "official_guideline"
+    },
+    {
+      "source_id": "SRC_PMFBy_PORTAL",
+      "title": "PMFBY official portal",
+      "publisher": "Ministry of Agriculture and Farmers Welfare, Government of India",
+      "url": "https://pmfby.gov.in/",
+      "supports": [
+        "official farmer registration",
+        "season-specific crop insurance information"
+      ],
+      "source_type": "official_portal"
+    },
+    {
+      "source_id": "SRC_SSP_DIRECTORY",
+      "title": "Karnataka State Scholarship Portal entry in India Stack Local",
+      "publisher": "National e-Governance Division, Government of India",
+      "url": "https://negd.gov.in/isl/Directory/statedata/391",
+      "supports": [
+        "SSP as an integrated portal",
+        "participating beneficiary categories and departments"
+      ],
+      "source_type": "official_government_directory"
+    },
+    {
+      "source_id": "SRC_NSP_2026",
+      "title": "National Scholarship Portal — Students / All Scholarships",
+      "publisher": "Government of India",
+      "url": "https://scholarships.gov.in/Students",
+      "supports": [
+        "2026-27 academic year",
+        "OTR requirement",
+        "live scheme catalogue and eligibility lookup"
+      ],
+      "source_type": "official_portal"
+    }
+  ],
+  "schemes": [
+    {
+      "scheme_id": "PM_KISAN",
+      "record_type": "scheme",
+      "name": {
+        "en": "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
+        "kn": "ಪ್ರಧಾನ ಮಂತ್ರಿ ಕಿಸಾನ್ ಸಮ್ಮಾನ್ ನಿಧಿ",
+        "hi": "प्रधानमंत्री किसान सम्मान निधि"
+      },
+      "beneficiary_groups": [
+        "farmers"
+      ],
+      "jurisdiction": "central",
+      "applicable_states": [
+        "Karnataka"
+      ],
+      "summary": "Income support for eligible landholding farmer families through direct benefit transfer.",
+      "benefit": {
+        "description": "₹6,000 per year, paid in three equal instalments, subject to scheme conditions.",
+        "amount_inr": 6000,
+        "frequency": "annual"
+      },
+      "eligibility_rules": [
+        {
+          "rule_id": "PMKISAN_E1",
+          "description": "Applicant must belong to a landholding farmer family with cultivable land recorded in the relevant State/UT land records.",
+          "rule_type": "required",
+          "verification_status": "verified_from_official_guideline",
+          "source_ids": [
+            "SRC_PMKISAN_GUIDELINES"
+          ]
+        }
+      ],
+      "exclusions": [
+        {
+          "description": "Institutional landholders are excluded.",
+          "verification_status": "verified_from_official_guideline",
+          "source_ids": [
+            "SRC_PMKISAN_GUIDELINES"
+          ]
+        },
+        {
+          "description": "Certain higher-economic-status categories are excluded, including specified constitutional office holders, specified government employees, income-tax payers and specified practising professionals. The exact categories and exceptions must be checked in the official guideline.",
+          "verification_status": "verified_from_official_guideline",
+          "source_ids": [
+            "SRC_PMKISAN_GUIDELINES",
+            "SRC_PMKISAN_PORTAL"
+          ]
+        }
+      ],
+      "required_documents": [
+        {
+          "item": "Landholding / land-record details",
+          "note": "State land-record evidence and data requirements must be confirmed for the applicant's case.",
+          "verification_status": "needs_state_level_confirmation"
+        },
+        {
+          "item": "Aadhaar / identity and bank details",
+          "note": "Do not collect or store these in the chatbot demo. The official portal controls identity and payment verification.",
+          "verification_status": "official_portal_process"
+        }
+      ],
+      "process": [
+        "Check current eligibility and beneficiary status on the official PM-KISAN portal.",
+        "Complete the official e-KYC process where required.",
+        "Use the official portal or authorised service channel for registration and status checks."
+      ],
+      "important_current_notes": [
+        "The official portal states that e-KYC is mandatory for registered PM-KISAN farmers.",
+        "The portal describes temporary withholding and physical verification for certain suspected exclusion cases; Gram Saathi must not infer wrongdoing from this."
+      ],
+      "official_urls": [
+        "https://pmkisan.gov.in/",
+        "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines%28English%29.pdf"
+      ],
+      "source_ids": [
+        "SRC_PMKISAN_GUIDELINES",
+        "SRC_PMKISAN_PORTAL"
+      ],
+      "last_checked": "2026-11-13",
+      "verification_status": "partially_verified",
+      "review_notes": "Before enabling deterministic eligibility decisions, transcribe every exclusion and exception from the current official guideline and confirm Karnataka land-record integration requirements. This record is suitable for discovery/demo, not final eligibility determination."
+    },
+    {
+      "scheme_id": "PMFBY",
+      "record_type": "scheme",
+      "name": {
+        "en": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+        "kn": "ಪ್ರಧಾನ ಮಂತ್ರಿ ಫಸಲ್ ಬಿಮಾ ಯೋಜನೆ",
+        "hi": "प्रधानमंत्री फसल बीमा योजना"
+      },
+      "beneficiary_groups": [
+        "farmers"
+      ],
+      "jurisdiction": "central",
+      "applicable_states": [
+        "Karnataka"
+      ],
+      "summary": "Crop insurance for notified crops in notified areas, subject to the season's State notification and scheme rules.",
+      "benefit": {
+        "description": "Insurance cover for eligible notified crops and risks. Actual sum insured, premium and enrolment window depend on the applicable State/district/crop/season notification.",
+        "amount_inr": null,
+        "frequency": "seasonal"
+      },
+      "eligibility_rules": [
+        {
+          "rule_id": "PMFBY_E1",
+          "description": "Farmers growing notified crops in notified areas may be covered if they have insurable interest in the insured crop.",
+          "rule_type": "required",
+          "verification_status": "verified_from_official_guideline",
+          "source_ids": [
+            "SRC_PMFBy_GUIDELINES"
+          ]
+        },
+        {
+          "rule_id": "PMFBY_E2",
+          "description": "Sharecroppers and tenant farmers may be eligible subject to State-notified documentary evidence and applicable agreement/land-record requirements.",
+          "rule_type": "conditional",
+          "verification_status": "verified_from_official_guideline",
+          "source_ids": [
+            "SRC_PMFBy_GUIDELINES"
+          ]
+        }
+      ],
+      "exclusions": [],
+      "required_documents": [
+        {
+          "item": "Evidence of insurable interest / land records / applicable tenancy or cultivation agreement",
+          "note": "Exact accepted evidence must be taken from the Karnataka notification for the relevant crop and season.",
+          "verification_status": "season_notification_required"
+        }
+      ],
+      "process": [
+        "Check whether the crop, district and season are notified in Karnataka.",
+        "Check the applicable enrolment window, premium and sum insured on the official portal / State notification.",
+        "Apply through the official portal or an authorised channel."
+      ],
+      "important_current_notes": [
+        "Do not show a generic premium or deadline as current. The official season-specific notification is authoritative.",
+        "The official PMFBY portal provides farmer registration and policy/claim information."
+      ],
+      "official_urls": [
+        "https://pmfby.gov.in/",
+        "https://pmfby.gov.in/pdf/Revised_Operational_Guidelines.pdf"
+      ],
+      "source_ids": [
+        "SRC_PMFBy_GUIDELINES",
+        "SRC_PMFBy_PORTAL"
+      ],
+      "last_checked": "2026-11-13",
+      "verification_status": "partially_verified",
+      "review_notes": "Needs current Karnataka 2026-27 season notification by district, crop, insurer, premium, sum insured and enrolment dates before live recommendations."
+    },
+    {
+      "scheme_id": "KARNATAKA_SSP_DIRECTORY",
+      "record_type": "scheme_directory",
+      "name": {
+        "en": "Karnataka State Scholarship Portal (SSP) — scholarship directory",
+        "kn": "ಕರ್ನಾಟಕ ರಾಜ್ಯ ವಿದ್ಯಾರ್ಥಿವೇತನ ಪೋರ್ಟಲ್",
+        "hi": "कर्नाटक राज्य छात्रवृत्ति पोर्टल"
+      },
+      "beneficiary_groups": [
+        "students"
+      ],
+      "jurisdiction": "state",
+      "applicable_states": [
+        "Karnataka"
+      ],
+      "summary": "A unified portal through which multiple Karnataka and Government of India pre-matric and post-matric scholarship programmes are administered by participating departments.",
+      "benefit": {
+        "description": "Benefits vary by department and individual scholarship. This directory record is not itself a single scholarship entitlement.",
+        "amount_inr": null,
+        "frequency": "varies_by_scheme"
+      },
+      "eligibility_rules": [],
+      "exclusions": [],
+      "required_documents": [],
+      "process": [
+        "Identify the student's class/course, domicile, department/category-specific eligibility and academic year.",
+        "Open the official SSP portal and select the relevant department/scheme.",
+        "Confirm current eligibility, documents, application window and verification steps from the individual scheme notice."
+      ],
+      "important_current_notes": [
+        "The Government of India's National e-Governance Division describes SSP as covering pre-matric and post-matric schemes for multiple beneficiary groups, including students from farmer, labour, weaver and other families.",
+        "Do not infer eligibility or scholarship amount from the SSP directory alone."
+      ],
+      "official_urls": [
+        "https://ssp.postmatric.karnataka.gov.in/",
+        "https://ssp.karnataka.gov.in/"
+      ],
+      "source_ids": [
+        "SRC_SSP_DIRECTORY"
+      ],
+      "last_checked": "2026-11-13",
+      "verification_status": "directory_verified_scheme_details_pending",
+      "review_notes": "Next research task: select one specific current-year SSP scholarship and obtain its official department notification / scheme specification. Do not use old university circulars as current eligibility authority."
+    },
+    {
+      "scheme_id": "PM_USP_CSSS",
+      "record_type": "scheme",
+      "name": {
+        "en": "PM-USP Central Sector Scheme of Scholarship for College and University Students (CSSS)",
+        "kn": "ಪಿಎಂ-ಯುಎಸ್‌ಪಿ ಕಾಲೇಜು ಮತ್ತು ವಿಶ್ವವಿದ್ಯಾಲಯ ವಿದ್ಯಾರ್ಥಿವೇತನ ಯೋಜನೆ",
+        "hi": "पीएम-यूएसपी कॉलेज और विश्वविद्यालय छात्रवृत्ति योजना"
+      },
+      "beneficiary_groups": [
+        "students"
+      ],
+      "jurisdiction": "central",
+      "applicable_states": [
+        "Karnataka"
+      ],
+      "summary": "A merit-based scholarship listed on the National Scholarship Portal. Individual eligibility and current application status must be checked in the official scheme specification for the academic year.",
+      "benefit": {
+        "description": "Refer to the current official scheme specification; amount and duration are intentionally not populated until the current guideline is reviewed.",
+        "amount_inr": null,
+        "frequency": "see_current_guidelines"
+      },
+      "eligibility_rules": [],
+      "exclusions": [],
+      "required_documents": [],
+      "process": [
+        "Check the current academic-year scheme specification and timeline on the National Scholarship Portal.",
+        "Check the student's eligibility in the official NSP scholarship eligibility tool.",
+        "Apply and track only through the official portal."
+      ],
+      "important_current_notes": [
+        "The NSP page identifies the academic year as 2026-27 and states that One Time Registration is mandatory.",
+        "Portal announcements and application dates can change; verify the live scheme listing before advising a student to apply."
+      ],
+      "official_urls": [
+        "https://scholarships.gov.in/Students",
+        "https://scholarships.gov.in/All-Scholarships"
+      ],
+      "source_ids": [
+        "SRC_NSP_2026"
+      ],
+      "last_checked": "2026-11-13",
+      "verification_status": "discovery_only_needs_guideline_review",
+      "review_notes": "Do not implement eligibility rules until the current 2026-27 official CSSS specification / FAQ is obtained and reviewed."
+    }
+  ]
+}
