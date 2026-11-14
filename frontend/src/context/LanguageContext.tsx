@@ -12,13 +12,20 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<SupportedLanguage>(() => {
-    const saved = localStorage.getItem('gram_saathi_lang');
-    return (saved === 'hi' || saved === 'kn') ? saved : 'kn';
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem('gram_saathi_lang');
+      if (saved === 'en' || saved === 'hi' || saved === 'kn') {
+        return saved;
+      }
+    }
+    return 'en';
   });
 
   const setLanguage = (lang: SupportedLanguage) => {
     setLanguageState(lang);
-    localStorage.setItem('gram_saathi_lang', lang);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('gram_saathi_lang', lang);
+    }
   };
 
   const t = (key: TranslationKey): string => {

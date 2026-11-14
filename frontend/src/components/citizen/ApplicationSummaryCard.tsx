@@ -80,7 +80,7 @@ export const ApplicationSummaryCard: React.FC<ApplicationSummaryCardProps> = ({
         </div>
 
         <p className="text-[10px] text-slate-300 font-mono">
-          ಟೋಕನ್ ID: {preview.confirmation_token} • {t('tokenRemaining')} {timeFormatted}
+          Token ID: {preview.confirmation_token} • {t('tokenRemaining')} {timeFormatted}
         </p>
       </div>
 
@@ -98,28 +98,28 @@ export const ApplicationSummaryCard: React.FC<ApplicationSummaryCardProps> = ({
         {/* Applicant Key Details */}
         <div className="bg-slate-50 rounded-lg p-2.5 text-xs space-y-1.5 border border-slate-200/80">
           <div className="flex justify-between border-b border-slate-200/60 pb-1">
-            <span className="text-slate-500">ಅರ್ಜಿದಾರರು (Applicant):</span>
+            <span className="text-slate-500">{t('applicantDetails')}:</span>
             <span className="font-bold text-slate-900">
               {preview.preview_summary.applicant_name}
             </span>
           </div>
           <div className="flex justify-between border-b border-slate-200/60 pb-1">
-            <span className="text-slate-500">ಗ್ರಾಮ / ತಾಲೂಕು:</span>
+            <span className="text-slate-500">{t('jurisdictionLabel')}</span>
             <span className="font-semibold text-slate-800">
               {preview.preview_summary.village}, {preview.preview_summary.district}
             </span>
           </div>
           <div className="flex justify-between border-b border-slate-200/60 pb-1">
-            <span className="text-slate-500">ನಿರೀಕ್ಷಿತ ವಾರ್ಷಿಕ ನೆರವು:</span>
+            <span className="text-slate-500">{t('benefit')}:</span>
             <span className="font-bold text-saathi-700">
               {preview.preview_summary.benefit_amount}
             </span>
           </div>
           <div className="flex justify-between pt-0.5">
-            <span className="text-slate-500">ಪರಿಶೀಲಿಸಲಾದ ದಾಖಲೆಗಳು:</span>
+            <span className="text-slate-500">{t('requiredDocs')}:</span>
             <span className="text-emerald-700 font-semibold flex items-center space-x-1">
               <FileCheck className="w-3.5 h-3.5" />
-              <span>ಆಧಾರ್ + ಆರ್‌ಟಿಸಿ (ಸರಿಹೊಂದಿದೆ)</span>
+              <span>{t('documentVerified')}</span>
             </span>
           </div>
         </div>

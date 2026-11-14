@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useOfficerAuth, DEMO_OFFICERS } from '../../context/OfficerAuthContext';
+import { useLanguage } from '../../context/LanguageContext';
+import { SupportedLanguage } from '../../types/api';
 import { OfficerRole } from '../../types/officer';
 import { 
   LayoutDashboard, 
@@ -13,7 +15,10 @@ import {
   Building2, 
   Smartphone,
   Menu,
-  X
+  X,
+  Languages,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 interface OfficerLayoutProps {
@@ -22,24 +27,57 @@ interface OfficerLayoutProps {
 
 export const OfficerLayout: React.FC<OfficerLayoutProps> = ({ children }) => {
   const { officer, logout, switchRole } = useOfficerAuth();
+  const { t, language, setLanguage } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
   const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Dark Mode State for Officer Portal
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem('gram_saathi_officer_theme');
+      if (saved) return saved === 'dark';
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('gram_saathi_officer_theme', 'dark');
+      }
+    } else {
+      document.documentElement.classList.remove('dark');
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('gram_saathi_officer_theme', 'light');
+      }
+    }
+
+    return () => {
+      // Ensure dark mode from officer portal does not leak to citizen portal when navigating away
+      document.documentElement.classList.remove('dark');
+    };
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => !prev);
+  };
+
   const navItems = [
     {
-      name: 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ (Overview)',
+      name: t('navOverview'),
       path: '/officer/dashboard',
       icon: LayoutDashboard,
     },
     {
-      name: 'ಅರ್ಜಿಗಳ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ (Applications)',
+      name: t('navApplications'),
       path: '/officer/applications',
       icon: FileCheck2,
     },
     {
-      name: 'ವರದಿಗಳು & ಅಂಕಿಅಂಶ (Reports)',
+      name: t('navReports'),
       path: '/officer/reports',
       icon: BarChart3,
     },
@@ -56,12 +94,12 @@ export const OfficerLayout: React.FC<OfficerLayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row">
+    <div className={`min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col md:flex-row transition-colors ${isDarkMode ? 'dark' : ''}`}>
       {/* Mobile Top Header */}
       <div className="md:hidden bg-slate-900 text-white px-4 py-3 flex items-center justify-between sticky top-0 z-40 border-b border-slate-800">
         <div className="flex items-center space-x-2">
           <img src="/logo.svg" alt="Gram Saathi" className="w-7 h-7 rounded-full" />
-          <span className="font-bold text-sm">ಗ್ರಾಮ ಸಾಥಿ • ಅಧಿಕಾರಿ ಪೋರ್ಟಲ್</span>
+          <span className="font-bold text-sm">{t('appName')} • {t('officerPortalTitle')}</span>
         </div>
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -84,10 +122,10 @@ export const OfficerLayout: React.FC<OfficerLayoutProps> = ({ children }) => {
           </div>
           <div>
             <h1 className="font-extrabold text-sm text-white tracking-tight leading-tight">
-              ಗ್ರಾಮ ಸಾಥಿ
+              {t('appName')}
             </h1>
             <p className="text-[10px] text-emerald-400 font-medium">
-              ಅಧಿಕಾರಿಗಳ ನಿರ್ವಹಣಾ ಪೋರ್ಟಲ್
+              {t('officerPortalTitle')}
             </p>
           </div>
         </div>
@@ -103,7 +141,7 @@ export const OfficerLayout: React.FC<OfficerLayoutProps> = ({ children }) => {
               {officer.role_display_name}
             </p>
             <p className="text-[10px] text-emerald-300/80 font-mono">
-              ವ್ಯಾಪ್ತಿ: {officer.jurisdiction_village || officer.jurisdiction_taluk || officer.jurisdiction_district}
+              {t('jurisdictionLabel')} {officer.jurisdiction_village || officer.jurisdiction_taluk || officer.jurisdiction_district}
             </p>
           </div>
         )}
@@ -139,10 +177,10 @@ export const OfficerLayout: React.FC<OfficerLayoutProps> = ({ children }) => {
           >
             <div className="flex items-center space-x-2">
               <Smartphone className="w-4 h-4 text-emerald-400" />
-              <span>ನಾಗರಿಕ PWA ಚಾಟ್‌ಬಾಟ್</span>
+              <span>{t('switchToCitizenPwa')}</span>
             </div>
             <span className="text-[10px] bg-emerald-700 text-white px-1.5 py-0.5 rounded">
-              ತೆರೆಯಿರಿ
+              {t('viewDetails')}
             </span>
           </Link>
         </div>
@@ -154,7 +192,7 @@ export const OfficerLayout: React.FC<OfficerLayoutProps> = ({ children }) => {
             className="w-full flex items-center justify-center space-x-2 text-xs font-semibold text-rose-300 hover:text-rose-200 hover:bg-rose-950/50 py-2 rounded-lg transition-colors"
           >
             <LogOut className="w-4 h-4" />
-            <span>ಲಾಗ್‌ಔಟ್ (Logout)</span>
+            <span>{t('logout')}</span>
           </button>
         </div>
       </aside>
@@ -162,32 +200,68 @@ export const OfficerLayout: React.FC<OfficerLayoutProps> = ({ children }) => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Navbar */}
-        <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-3 sticky top-0 z-20 shadow-sm flex items-center justify-between">
+        <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 py-3 sticky top-0 z-20 shadow-sm flex items-center justify-between transition-colors">
           <div className="flex items-center space-x-3">
-            <div className="hidden sm:flex items-center space-x-2 text-xs text-slate-500">
-              <Building2 className="w-4 h-4 text-slate-400" />
-              <span>ಕರ್ನಾಟಕ ಸರ್ಕಾರ • ಕಂದಾಯ ಮತ್ತು ಗ್ರಾಮೀಣಾಭಿವೃದ್ಧಿ ಪೋರ್ಟಲ್</span>
+            <div className="hidden sm:flex items-center space-x-2 text-xs text-slate-500 dark:text-slate-400">
+              <Building2 className="w-4 h-4 text-slate-400 dark:text-slate-500" />
+              <span>{t('governmentOfIndia')}</span>
             </div>
           </div>
 
-          {/* Role Switcher Toolbar */}
-          <div className="flex items-center space-x-3">
+          {/* Role Switcher Toolbar & Theme Toggle */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* Dark / Light Mode Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleDarkMode}
+              className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 shadow-xs"
+              title={isDarkMode ? t('lightMode') : t('darkMode')}
+            >
+              {isDarkMode ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-slate-600" />
+              )}
+              <span className="hidden lg:inline text-xs font-semibold">
+                {isDarkMode ? t('lightMode') : t('darkMode')}
+              </span>
+            </button>
+
+            {/* Language Switcher */}
+            <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs">
+              <Languages className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 ml-1.5 mr-1" />
+              {(['en', 'kn', 'hi'] as const).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setLanguage(lang)}
+                  className={`px-2 py-1 rounded-md font-semibold text-xs transition-all ${
+                    language === lang
+                      ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                  title={`Switch to ${lang === 'en' ? 'English' : lang === 'kn' ? 'ಕನ್ನಡ' : 'हिंदी'}`}
+                >
+                  {lang === 'en' ? 'EN' : lang === 'kn' ? 'ಕನ್ನಡ' : 'हिंदी'}
+                </button>
+              ))}
+            </div>
+
             <div className="relative">
               <button
                 onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
-                className="flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 transition-all"
+                className="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-800 dark:text-slate-200 transition-all"
               >
-                <UserCheck className="w-3.5 h-3.5 text-saathi-700" />
-                <span className="font-mono text-[11px] bg-saathi-100 text-saathi-900 px-1.5 py-0.5 rounded">
+                <UserCheck className="w-3.5 h-3.5 text-saathi-700 dark:text-emerald-400" />
+                <span className="font-mono text-[11px] bg-saathi-100 dark:bg-emerald-950 text-saathi-900 dark:text-emerald-300 px-1.5 py-0.5 rounded">
                   {officer?.role}
                 </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+                <ChevronDown className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
               </button>
 
               {isRoleDropdownOpen && (
-                <div className="absolute right-0 mt-1 w-64 bg-white rounded-xl shadow-modal border border-slate-200 py-1.5 z-50 text-xs">
+                <div className="absolute right-0 mt-1 w-64 bg-white dark:bg-slate-900 rounded-xl shadow-modal border border-slate-200 dark:border-slate-800 py-1.5 z-50 text-xs">
                   <p className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                    ಡೆಮೊ ಅಧಿಕಾರಿಯ ಪಾತ್ರ ಬದಲಿಸಿ:
+                    {t('switchRoleTitle')}
                   </p>
                   {(['PANCHAYAT_STAFF', 'TEHSIL_STAFF', 'ADMIN'] as OfficerRole[]).map((r) => {
                     const u = DEMO_OFFICERS[r];
@@ -196,12 +270,12 @@ export const OfficerLayout: React.FC<OfficerLayoutProps> = ({ children }) => {
                       <button
                         key={r}
                         onClick={() => handleRoleChange(r)}
-                        className={`w-full text-left px-3 py-2 flex flex-col hover:bg-slate-50 transition-colors ${
-                          isSelected ? 'bg-saathi-50 text-saathi-900 font-bold' : 'text-slate-700'
+                        className={`w-full text-left px-3 py-2 flex flex-col hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors ${
+                          isSelected ? 'bg-saathi-50 dark:bg-emerald-950/60 text-saathi-900 dark:text-emerald-300 font-bold' : 'text-slate-700 dark:text-slate-300'
                         }`}
                       >
                         <span className="font-semibold">{u.full_name}</span>
-                        <span className="text-[10px] text-slate-500">{u.role_display_name}</span>
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400">{u.role_display_name}</span>
                       </button>
                     );
                   })}
@@ -210,9 +284,9 @@ export const OfficerLayout: React.FC<OfficerLayoutProps> = ({ children }) => {
             </div>
 
             {/* Live mode indicator */}
-            <span className="hidden sm:inline-flex items-center space-x-1 text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-1 rounded border border-emerald-200">
+            <span className="hidden sm:inline-flex items-center space-x-1 text-[11px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-1 rounded border border-emerald-200 dark:border-emerald-800">
               <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
-              <span>ಲೈವ್ ಸಿಂಕ್ ಸಕ್ರಿಯ</span>
+              <span>{t('liveSyncActive')}</span>
             </span>
           </div>
         </header>

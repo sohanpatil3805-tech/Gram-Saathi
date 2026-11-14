@@ -47,19 +47,19 @@ export const StatCard: React.FC<StatCardProps> = ({
       iconBg: 'bg-rose-600 text-white',
     },
     slate: {
-      bg: 'bg-slate-50',
-      text: 'text-slate-700',
-      border: 'border-slate-200',
-      iconBg: 'bg-slate-800 text-white',
+      bg: 'bg-slate-50 dark:bg-slate-800/50',
+      text: 'text-slate-700 dark:text-slate-300',
+      border: 'border-slate-200 dark:border-slate-800',
+      iconBg: 'bg-slate-800 dark:bg-slate-700 text-white',
     },
   };
 
   const scheme = colorMap[colorScheme];
 
   return (
-    <div className={`p-4 rounded-2xl bg-white border ${scheme.border} shadow-sm hover:shadow-md transition-shadow`}>
+    <div className={`p-4 rounded-2xl bg-white dark:bg-slate-900 border ${scheme.border} shadow-sm hover:shadow-md transition-all`}>
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+        <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
           {title}
         </span>
         <div className={`w-8 h-8 rounded-xl ${scheme.iconBg} flex items-center justify-center shadow-sm`}>
@@ -68,13 +68,13 @@ export const StatCard: React.FC<StatCardProps> = ({
       </div>
 
       <div className="mt-3 flex items-baseline space-x-2">
-        <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-mono">
+        <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight font-mono">
           {value}
         </span>
         {trend && (
           <span
             className={`text-[11px] font-bold ${
-              trend.isPositive ? 'text-emerald-600' : 'text-slate-500'
+              trend.isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'
             }`}
           >
             {trend.value}
@@ -83,7 +83,7 @@ export const StatCard: React.FC<StatCardProps> = ({
       </div>
 
       {subtitle && (
-        <p className="text-[11px] text-slate-500 mt-1 truncate">
+        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 truncate">
           {subtitle}
         </p>
       )}

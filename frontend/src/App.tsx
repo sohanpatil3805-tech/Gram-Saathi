@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './context/LanguageContext';
 import { OfficerAuthProvider, useOfficerAuth } from './context/OfficerAuthContext';
 import { CitizenChatbotPage } from './pages/citizen/CitizenChatbotPage';
+import { CitizenHomePage } from './pages/citizen/CitizenHomePage';
+import { CitizenLoginPage } from './pages/citizen/CitizenLoginPage';
+import { CitizenProfilePage } from './pages/citizen/CitizenProfilePage';
+import { HelpSupportPage } from './pages/citizen/HelpSupportPage';
 import { OfficerLoginPage } from './pages/officer/OfficerLoginPage';
 import { OfficerDashboardPage } from './pages/officer/OfficerDashboardPage';
 import { OfficerApplicationsPage } from './pages/officer/OfficerApplicationsPage';
@@ -18,14 +22,35 @@ const ProtectedOfficerRoute: React.FC<{ children: React.ReactNode }> = ({ childr
   return <>{children}</>;
 };
 
+// Protected Citizen Route wrapper
+const ProtectedCitizenRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const token = typeof localStorage !== 'undefined' ? localStorage.getItem('citizen_token') : null;
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return <>{children}</>;
+};
+
 export const App: React.FC = () => {
   return (
     <LanguageProvider>
       <OfficerAuthProvider>
         <BrowserRouter>
           <Routes>
-            {/* 1. Citizen Mobile-First Chatbot PWA Interface */}
-            <Route path="/" element={<CitizenChatbotPage />} />
+            {/* 1. Citizen Mobile-First Pages */}
+            <Route path="/" element={<CitizenHomePage />} />
+            <Route path="/home" element={<CitizenHomePage />} />
+            <Route path="/chat" element={<CitizenChatbotPage />} />
+            <Route path="/login" element={<CitizenLoginPage />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedCitizenRoute>
+                  <CitizenProfilePage />
+                </ProtectedCitizenRoute>
+              }
+            />
+            <Route path="/help" element={<HelpSupportPage />} />
 
             {/* 2. Officer Management Desktop Portal */}
             <Route path="/officer/login" element={<OfficerLoginPage />} />

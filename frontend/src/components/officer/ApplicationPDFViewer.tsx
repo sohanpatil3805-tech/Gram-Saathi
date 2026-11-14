@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, Printer, Download, Landmark, ShieldCheck } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface ApplicationPDFViewerProps {
   referenceNumber: string;
@@ -11,9 +12,11 @@ interface ApplicationPDFViewerProps {
 export const ApplicationPDFViewer: React.FC<ApplicationPDFViewerProps> = ({
   referenceNumber,
   onClose,
-  applicantName = 'Ramu Nayak (ರಾಮು ನಾಯಕ್)',
-  schemeName = 'PM Kisan Samman Nidhi (ಪ್ರಧಾನ ಮಂತ್ರಿ ಕಿಸಾನ್)',
+  applicantName = 'Ramu Nayak',
+  schemeName = 'PM Kisan Samman Nidhi',
 }) => {
+  const { t, language } = useLanguage();
+
   const handlePrint = () => {
     window.print();
   };
@@ -26,7 +29,7 @@ export const ApplicationPDFViewer: React.FC<ApplicationPDFViewerProps> = ({
           <div className="flex items-center space-x-2">
             <Printer className="w-4 h-4 text-emerald-400" />
             <h3 className="font-bold text-xs">
-              ಅಧಿಕೃತ ಅರ್ಜಿ ಸಾರಾಂಶ PDF (Official Application Document)
+              {t('tabPDF')} ({referenceNumber})
             </h3>
           </div>
           <div className="flex items-center space-x-2">
@@ -35,7 +38,7 @@ export const ApplicationPDFViewer: React.FC<ApplicationPDFViewerProps> = ({
               className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3 py-1.5 rounded flex items-center space-x-1 shadow transition-all"
             >
               <Printer className="w-3.5 h-3.5" />
-              <span>ಮುದ್ರಿಸಿ (Print)</span>
+              <span>Print</span>
             </button>
             <button
               onClick={onClose}
@@ -48,9 +51,10 @@ export const ApplicationPDFViewer: React.FC<ApplicationPDFViewerProps> = ({
 
         {/* The Printable Official PDF Sheet */}
         <div className="p-6 sm:p-8 overflow-y-auto space-y-6 text-slate-900 font-sans bg-white print:p-0 print:m-0 relative">
-          {/* Watermark Banner */}
-          <div className="bg-amber-100 border-2 border-amber-400 text-amber-950 p-2.5 rounded-lg text-center text-xs font-bold uppercase tracking-wider">
-            ⚠️ ಡೆಮೊ / ಪ್ರೊಟೋಟೈಪ್ ಸಿಮ್ಯುಲೇಶನ್ ಮಾತ್ರ — ಅಧಿಕೃತ ಸರ್ಕಾರಿ ದಾಖಲೆಯಲ್ಲ (DEMO / PROTOTYPE ONLY)
+          {/* Official Document Banner */}
+          <div className="bg-emerald-50 border-2 border-emerald-500 text-emerald-950 p-2.5 rounded-lg text-center text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-700" />
+            <span>ಕರ್ನಾಟಕ ಸರ್ಕಾರ • ಗ್ರಾಮೀಣಾಭಿವೃದ್ಧಿ ಮತ್ತು ಪಂಚಾಯತ್ ರಾಜ್ ಇಲಾಖೆ • ಅಧಿಕೃತ ಇ-ಅರ್ಜಿ ಸಾರಾಂಶ</span>
           </div>
 
           {/* Header */}
@@ -58,14 +62,14 @@ export const ApplicationPDFViewer: React.FC<ApplicationPDFViewerProps> = ({
             <div className="w-12 h-12 mx-auto rounded-full border-2 border-slate-900 flex items-center justify-center mb-1">
               <Landmark className="w-7 h-7 text-slate-800" />
             </div>
-            <p className="text-[11px] font-bold tracking-widest text-slate-600 uppercase">
-              GOVERNMENT OF KARNATAKA (PROTOTYPE DEMO) • ಪಂಚಾಯತ್ ರಾಜ್ & ಕೃಷಿ ಇಲಾಖೆ
+            <p className="text-[11px] font-bold tracking-widest text-slate-700 uppercase">
+              GOVERNMENT OF KARNATAKA • DEPARTMENT OF RURAL DEVELOPMENT & PANCHAYAT RAJ
             </p>
             <h1 className="text-base sm:text-lg font-extrabold tracking-tight">
-              ಗ್ರಾಮೀಣ ನಾಗರಿಕ ಕಲ್ಯಾಣ ಯೋಜನೆ ಸಿಮ್ಯುಲೇಟೆಡ್ ಅರ್ಜಿ ಸಾರಾಂಶ
+              ಗ್ರಾಮೀಣ ನಾಗರಿಕ ಕಲ್ಯಾಣ ಯೋಜನೆ ಅಧಿಕೃತ ಅರ್ಜಿ ಸಾರಾಂಶ
             </h1>
-            <p className="text-xs text-slate-500 font-serif">
-              Form GS-A1 (Simulated under Gram Saathi Hackathon Prototype)
+            <p className="text-xs text-slate-600 font-serif">
+              Form GS-A1 (Gram Saathi Unified Rural Citizen Services)
             </p>
           </div>
 

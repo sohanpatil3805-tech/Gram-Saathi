@@ -20,6 +20,8 @@ export interface ApplicationRecord {
   scheme_id: string;
   scheme_name: string;
   scheme_code: string;
+  scheme_category?: string;
+  scheme_department?: string;
   applicant: {
     id: string;
     full_name: string;
@@ -28,9 +30,15 @@ export interface ApplicationRecord {
     village: string;
     taluk: string;
     district: string;
+    state?: string;
     annual_income: number;
     land_holding_acres?: number;
     has_bank_account: boolean;
+    education_level?: string;
+    institution?: string;
+    academic_score?: string;
+    caste_category?: string;
+    crop_type?: string;
   };
   submitted_at: string;
   updated_at: string;
@@ -38,6 +46,30 @@ export interface ApplicationRecord {
   submission_mode: 'DIRECT_CITIZEN' | 'ASSISTED_OFFICER';
   documents: DocumentVerificationResult[];
   eligibility_score: number;
+  eligibility_evaluation?: {
+    outcome: string;
+    score: number;
+    rule_results: Array<{
+      rule_id: string;
+      outcome: string;
+      message: string;
+      field?: string | null;
+    }>;
+    missing_fields: string[];
+    disclaimer: string;
+  };
+  required_documents_checklist?: Array<{
+    item_name: string;
+    mandatory: boolean;
+    note?: string;
+    is_uploaded: boolean;
+    uploaded_doc_id?: string;
+    uploaded_filename?: string;
+    uploaded_file_size?: number;
+    validation_status?: string;
+    ocr_status?: string;
+    confidence_score?: number;
+  }>;
   assigned_office: string;
   official_order_number?: string;
   remarks?: string;

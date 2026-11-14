@@ -41,8 +41,49 @@ class AIModelError(AIProviderError):
 
 
 class AIRateLimitError(AIProviderError):
-    """Raised when provider rate limits / quota thresholds are reached."""
-    pass
+    """
+    Raised when provider rate limits or quota thresholds are reached (HTTP 429).
+    Includes structured flags to distinguish temporary RPM spikes from daily quota exhaustion.
+    """
+    def __init__(
+        self,
+        message: str = "Gemini API rate limit reached.",
+        is_daily_quota: bool = False,
+        retry_after_seconds: Optional[float] = None,
+        quota_metric: Optional[str] = None,
+    ):
+        super().__init__(message)
+        self.message = message
+        self.is_daily_quota = is_daily_quota
+        self.retry_after_seconds = retry_after_seconds
+        self.quota_metric = quota_metric
+        self.status_code = 429
+
+
+class AIServiceUnavailableError(AIModelError):
+    """Raised when the AI provider returns HTTP 503 Service Unavailable."""
+    def __init__(
+        self,
+        message: str = "Gemini service is temporarily unavailable (503).",
+        retry_after_seconds: Optional[float] = None,
+    ):
+        super().__init__(message)
+        self.message = message
+        self.status_code = 503
+        self.retry_after_seconds = retry_after_seconds
+
+
+class AIGatewayTimeoutError(AIModelError):
+    """Raised when the AI provider gateway times out (HTTP 504)."""
+    def __init__(
+        self,
+        message: str = "Gemini gateway timed out (504).",
+        retry_after_seconds: Optional[float] = None,
+    ):
+        super().__init__(message)
+        self.message = message
+        self.status_code = 504
+        self.retry_after_seconds = retry_after_seconds
 
 
 # ─── Data Transfer Objects ───────────────────────────────────────────────────

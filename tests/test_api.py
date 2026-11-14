@@ -56,6 +56,41 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(response.json()["schemes"][0]["name"], "ರೈತ ಯೋಜನೆ")
         self.assertEqual(response.json()["schemes"][0]["eligibility_status"], "not_configured")
 
+    def test_discover_schemes_all_three_languages(self):
+        for lang, expected_name in [("en", "Demo Farmer Scheme"), ("kn", "ರೈತ ಯೋಜನೆ"), ("hi", "किसान योजना")]:
+            response = self.client.post("/api/schemes/discover", json={
+                "beneficiary_group": "farmer", "state": "Karnataka", "language": lang
+            })
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json()["schemes"][0]["name"], expected_name)
+
+    def test_discover_schemes_singular_and_null_facts(self):
+        response = self.client.post("/api/schemes/discover", json={
+            "beneficiary_group": "farmer", "state": "Karnataka", "language": "kn", "applicant_facts": None
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()["schemes"]), 1)
+        self.assertEqual(response.json()["schemes"][0]["name"], "ರೈತ ಯೋಜನೆ")
+
+    def test_discover_schemes_locale_language_normalized(self):
+        response = self.client.post("/api/schemes/discover", json={
+            "beneficiary_group": "farmer", "state": "Karnataka", "language": "kn-IN"
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["language"], "kn")
+
+    def test_discover_schemes_empty_beneficiary_returns_422(self):
+        response = self.client.post("/api/schemes/discover", json={
+            "beneficiary_group": "   ", "state": "Karnataka"
+        })
+        self.assertEqual(response.status_code, 422)
+
+    def test_discover_schemes_unsupported_language_returns_422(self):
+        response = self.client.post("/api/schemes/discover", json={
+            "beneficiary_group": "farmer", "language": "fr"
+        })
+        self.assertEqual(response.status_code, 422)
+
     def test_unknown_scheme(self):
         response = self.client.get("/api/schemes/DOES_NOT_EXIST")
         self.assertEqual(response.status_code, 404)

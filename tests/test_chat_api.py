@@ -31,6 +31,13 @@ def test_chat_asks_for_beneficiary_group():
     r=client().post("/api/chat", json={"message":"Find a scheme","language":"en"})
     assert r.status_code==200 and r.json()["needs_clarification"] is True
 
+def test_chat_asks_for_beneficiary_group_in_all_three_languages():
+    for lang, expected_substr in [("en", "farmer"), ("kn", "ರೈತ"), ("hi", "किसान")]:
+        r = client().post("/api/chat", json={"message": "Find a scheme", "language": lang})
+        assert r.status_code == 200
+        assert r.json()["needs_clarification"] is True
+        assert expected_substr in r.json()["reply"]
+
 def test_chat_uses_discovery_and_provider():
     r=client().post("/api/chat", json={"message":"What can help me?","beneficiary_group":"farmers",
                                       "state":"Karnataka","language":"en"})
@@ -42,3 +49,8 @@ def test_chat_uses_discovery_and_provider():
 def test_chat_rejects_unsupported_language():
     r=client().post("/api/chat", json={"message":"Hello","beneficiary_group":"farmers","language":"fr"})
     assert r.status_code==422
+
+def test_chat_rejects_sensitive_identity_data_before_ai_call():
+    r=client().post("/api/chat", json={"message":"My Aadhaar is 1234 5678 9012","beneficiary_group":"farmers","language":"en"})
+    assert r.status_code == 422
+    assert "remove Aadhaar" in r.json()["detail"]

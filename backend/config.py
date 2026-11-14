@@ -52,6 +52,20 @@ class Settings(BaseSettings):
     jwt_algorithm: str = Field(default="HS256", validation_alias="JWT_ALGORITHM")
     jwt_citizen_expire_minutes: int = Field(default=60, validation_alias="JWT_CITIZEN_EXPIRE_MINUTES")
     jwt_officer_expire_minutes: int = Field(default=480, validation_alias="JWT_OFFICER_EXPIRE_MINUTES")
+    citizen_jwt_expiry_days: int = Field(default=30, validation_alias="CITIZEN_JWT_EXPIRY_DAYS")
+    otp_dev_mode: bool = Field(default=True, validation_alias="OTP_DEV_MODE")
+    ocr_enabled: bool = Field(default=True, validation_alias="OCR_ENABLED")
+    tesseract_cmd: Optional[str] = Field(
+        default=None,
+        validation_alias="TESSERACT_CMD",
+        description="Path to tesseract binary. Defaults to standard OS paths if None."
+    )
+    tesseract_languages: str = Field(
+        default="eng+hin+kan",
+        validation_alias="TESSERACT_LANGUAGES",
+        description="Tesseract language string (e.g. eng+hin+kan)"
+    )
+    notification_provider: str = Field(default="console", validation_alias="NOTIFICATION_PROVIDER")
 
     # ─── Database ────────────────────────────────────────────────────────────────
     database_url: str = Field(
@@ -71,6 +85,56 @@ class Settings(BaseSettings):
     # ─── Storage & Paths ─────────────────────────────────────────────────────────
     storage_path: Path = Field(default=PROJECT_ROOT / "storage", validation_alias="STORAGE_PATH")
     max_upload_size_mb: int = Field(default=5, validation_alias="MAX_UPLOAD_SIZE_MB")
+    confirmation_token_expire_minutes: int = Field(default=5, validation_alias="CONFIRMATION_TOKEN_EXPIRE_MINUTES")
+
+    @property
+    def storage_documents_dir(self) -> Path:
+        """Directory for secure citizen document uploads."""
+        docs_dir = self.storage_path / "documents"
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        return docs_dir
+
+    @property
+    def sync_database_url(self) -> str:
+        """
+        Synchronous database connection URL for SQLAlchemy engine and Alembic migrations.
+        Strips async drivers (e.g. +aiosqlite -> sqlite, +asyncpg -> postgresql).
+        """
+        url = self.database_url
+        if "+aiosqlite" in url:
+            return url.replace("+aiosqlite", "")
+        if "+asyncpg" in url:
+            return url.replace("+asyncpg", "")
+        return url
+
+    @property
+    def resolved_tesseract_cmd(self) -> Optional[str]:
+        """
+        Resolve path to tesseract binary:
+        1. Explicit TESSERACT_CMD setting / env var.
+        2. Windows default: C:\\Program Files\\Tesseract-OCR\\tesseract.exe
+        3. Windows user local: %LOCALAPPDATA%\\Programs\\Tesseract-OCR\\tesseract.exe
+        4. System PATH: shutil.which("tesseract")
+        5. Common Linux / Unix paths: /usr/bin/tesseract, /usr/local/bin/tesseract
+        """
+        import os
+        import shutil
+        if self.tesseract_cmd and os.path.exists(self.tesseract_cmd):
+            return self.tesseract_cmd
+        if os.name == "nt":
+            win_default = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+            if os.path.exists(win_default):
+                return win_default
+            win_local = os.path.expandvars(r"%LOCALAPPDATA%\Programs\Tesseract-OCR\tesseract.exe")
+            if os.path.exists(win_local):
+                return win_local
+        which_path = shutil.which("tesseract")
+        if which_path and os.path.exists(which_path):
+            return which_path
+        for unix_path in ("/usr/bin/tesseract", "/usr/local/bin/tesseract"):
+            if os.path.exists(unix_path):
+                return unix_path
+        return self.tesseract_cmd
 
     # ─── CORS ────────────────────────────────────────────────────────────────────
     cors_origins: Union[List[str], str] = Field(

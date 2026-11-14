@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { 
   Send, 
@@ -9,6 +9,7 @@ import {
   Sparkles,
   Volume2
 } from 'lucide-react';
+import { VoiceInput } from './VoiceInput';
 
 interface ChatInputProps {
   onSendMessage: (text: string) => void;
@@ -23,8 +24,18 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 }) => {
   const { t, language } = useLanguage();
   const [inputText, setInputText] = useState('');
-  const [isRecording, setIsRecording] = useState(false);
+  const [showVoiceModal, setShowVoiceModal] = useState(false);
+  const [isSpeechSupported, setIsSpeechSupported] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hasSpeech = Boolean(
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+      );
+      setIsSpeechSupported(hasSpeech);
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,35 +44,23 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     setInputText('');
   };
 
-  const handleVoiceClick = () => {
-    setIsRecording(!isRecording);
-    if (!isRecording) {
-      // Demo voice transcription simulation
-      setTimeout(() => {
-        const sampleVoiceText =
-          language === 'kn'
-            ? 'ನನಗೆ ರೈತ ಯೋಜನೆಗಳ ಮಾಹಿತಿ ಬೇಕು'
-            : 'मुझे किसान योजनाओं की जानकारी चाहिए';
-        setInputText(sampleVoiceText);
-        setIsRecording(false);
-      }, 1500);
+  const handleVoiceTranscript = (text: string) => {
+    setInputText(text);
+    setShowVoiceModal(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
   };
 
   return (
     <div className="sticky bottom-0 z-20 bg-slate-100/90 backdrop-blur-md border-t border-slate-200/80 p-2 sm:p-3">
-      <div className="max-w-4xl mx-auto">
-        {/* Voice recording indicator if active */}
-        {isRecording && (
-          <div className="mb-2 bg-emerald-50 border border-emerald-300 rounded-xl px-3 py-1.5 flex items-center justify-between text-xs text-emerald-900 animate-pulse">
-            <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
-              <span className="font-semibold">
-                {language === 'kn' ? 'ಭಾಷಿಣಿ ವಾಯ್ಸ್ ರೆಕಾರ್ಡಿಂಗ್ (ಕನ್ನಡ)...' : 'भाषिणी वॉइस रिकॉर्डिंग (हिंदी)...'}
-              </span>
-            </div>
-            <span className="text-[10px] text-emerald-700 font-mono">Bhashini Speech API</span>
-          </div>
+      <div className="max-w-4xl mx-auto space-y-2">
+        {/* Voice Input Panel if active */}
+        {showVoiceModal && (
+          <VoiceInput
+            onTranscriptComplete={handleVoiceTranscript}
+            onClose={() => setShowVoiceModal(false)}
+          />
         )}
 
         <form onSubmit={handleSubmit} className="flex items-center space-x-1.5 sm:space-x-2">
@@ -97,19 +96,21 @@ export const ChatInput: React.FC<ChatInputProps> = ({
             />
           </div>
 
-          {/* Voice Microphone (BHASHINI stub) */}
-          <button
-            type="button"
-            onClick={handleVoiceClick}
-            className={`p-2.5 rounded-full transition-all shadow-sm active:scale-95 ${
-              isRecording
-                ? 'bg-red-500 text-white animate-pulse'
-                : 'bg-white text-slate-600 hover:text-whatsapp-teal hover:bg-slate-50 border border-slate-200'
-            }`}
-            title={t('voiceInputTitle')}
-          >
-            <Mic className="w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
+          {/* Voice Microphone (shown only if SpeechRecognition is supported) */}
+          {isSpeechSupported && (
+            <button
+              type="button"
+              onClick={() => setShowVoiceModal(!showVoiceModal)}
+              className={`p-2.5 rounded-full transition-all shadow-sm active:scale-95 ${
+                showVoiceModal
+                  ? 'bg-red-500 text-white animate-pulse'
+                  : 'bg-white text-slate-600 hover:text-whatsapp-teal hover:bg-slate-50 border border-slate-200'
+              }`}
+              title={t('voiceInputTitle')}
+            >
+              <Mic className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+          )}
 
           {/* Send Button */}
           <button

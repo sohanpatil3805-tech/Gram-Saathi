@@ -52,25 +52,26 @@ class EligibilityResult:
 
 def _compare(actual: Any, operator: str, expected: Any) -> bool:
     """Evaluate a small allowlist of safe comparison operators."""
-    if operator == "eq":
+    op = operator.strip().lower() if isinstance(operator, str) else str(operator)
+    if op in ("eq", "=="):
         return actual == expected
-    if operator == "neq":
+    if op in ("neq", "!="):
         return actual != expected
-    if operator == "in":
+    if op in ("in",):
         return actual in expected
-    if operator == "not_in":
+    if op in ("not_in",):
         return actual not in expected
-    if operator == "gte":
+    if op in ("gte", ">="):
         return actual >= expected
-    if operator == "lte":
+    if op in ("lte", "<="):
         return actual <= expected
-    if operator == "gt":
+    if op in ("gt", ">"):
         return actual > expected
-    if operator == "lt":
+    if op in ("lt", "<"):
         return actual < expected
-    if operator == "truthy":
+    if op in ("truthy",):
         return bool(actual)
-    if operator == "falsy":
+    if op in ("falsy",):
         return not bool(actual)
     raise ValueError(f"Unsupported rule operator: {operator}")
 
@@ -92,7 +93,7 @@ def evaluate_rule(rule: dict[str, Any], applicant: dict[str, Any]) -> RuleResult
     rule_id = str(rule.get("rule_id", "UNNAMED_RULE"))
     field = rule.get("field")
     status = rule.get("verification_status")
-    message = rule.get("message") or f"Rule {rule_id} requires review."
+    message = rule.get("description") or rule.get("message") or f"Rule {rule_id} requires review."
 
     if status != "verified":
         return RuleResult(rule_id, Outcome.MANUAL_REVIEW, message, field)

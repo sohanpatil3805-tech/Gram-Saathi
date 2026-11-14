@@ -155,7 +155,7 @@ export const mockService = {
         village: profile.village || 'Maddur (ಮದ್ದೂರು)',
         district: profile.district || 'Mandya (ಮಂಡ್ಯ)',
         key_details: {
-          'Citizen Group': profile.citizen_group,
+          'Citizen Group': String(profile.citizen_group || 'OTHER'),
           'Land Holding': profile.land_holding_acres ? `${profile.land_holding_acres} Acres` : 'N/A',
           'Annual Income': `₹${profile.annual_income?.toLocaleString('en-IN') || '80,000'}`,
           'Bank Account Status': profile.has_bank_account ? 'Aadhaar-Linked Active' : 'Not linked',

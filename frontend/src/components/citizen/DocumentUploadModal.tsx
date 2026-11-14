@@ -103,9 +103,12 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
             </label>
             <div className="grid grid-cols-2 gap-2">
               {[
-                { id: 'AADHAAR', label: t('aadhaarCard') },
-                { id: 'LAND_RECORD', label: t('landRecord') },
+                { id: 'AADHAAR', label: t('studentAadhaar') || t('aadhaarCard') },
+                { id: 'CASTE_CERT', label: t('casteCert') },
                 { id: 'INCOME_CERT', label: t('incomeCert') },
+                { id: 'MARKS_CARD', label: t('marksCard') },
+                { id: 'BANK_PASSBOOK', label: t('bankPassbook') },
+                { id: 'LAND_RECORD', label: t('landRecord') },
                 { id: 'STUDENT_ID', label: t('studentId') },
               ].map((dt) => (
                 <button

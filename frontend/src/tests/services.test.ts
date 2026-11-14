@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { mockService } from '../services/mockService';
+import { en } from '../translations/en';
 import { kn } from '../translations/kn';
 import { hi } from '../translations/hi';
+import { getTranslation, TranslationKey } from '../translations';
 
 describe('Gram Saathi - Core Frontend Services & Mocks', () => {
   it('should fetch schemes and filter by target_group', async () => {
@@ -73,11 +75,29 @@ describe('Gram Saathi - Core Frontend Services & Mocks', () => {
     expect(submission.status).toBe('SUBMITTED');
   });
 
-  it('should maintain 100% key parity between Kannada and Hindi translations', () => {
+  it('should maintain 100% key parity among English, Kannada, and Hindi translations', () => {
+    const enKeys = Object.keys(en).sort();
     const knKeys = Object.keys(kn).sort();
     const hiKeys = Object.keys(hi).sort();
 
-    expect(knKeys).toEqual(hiKeys);
-    expect(knKeys.length).toBeGreaterThan(40);
+    expect(enKeys).toEqual(knKeys);
+    expect(hiKeys).toEqual(knKeys);
+    expect(enKeys.length).toBeGreaterThan(100);
+
+    // Verify all keys have non-empty string values
+    for (const key of enKeys) {
+      expect((en as any)[key]).toBeTruthy();
+      expect((kn as any)[key]).toBeTruthy();
+      expect((hi as any)[key]).toBeTruthy();
+    }
+  });
+
+  it('should translate correctly for English, Hindi, and Kannada with clear fallback', () => {
+    expect(getTranslation('en', 'appName')).toBe('Gram Saathi');
+    expect(getTranslation('kn', 'appName')).toBe('ಗ್ರಾಮ ಸಾಥಿ');
+    expect(getTranslation('hi', 'appName')).toBe('ग्राम साथी');
+
+    // Test fallback behavior when key is not found in language
+    expect(getTranslation('kn', 'nonExistentKey' as TranslationKey)).toBe('nonExistentKey');
   });
 });

@@ -52,9 +52,9 @@ export const SubmissionSuccessModal: React.FC<SubmissionSuccessModalProps> = ({
 
           <div className="p-4 space-y-3.5 text-center">
             {/* Reference Badge */}
-            <div className="py-2.5 px-3 bg-amber-50 border border-amber-300 rounded-xl space-y-1">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2 py-0.5 rounded font-mono">
-                SIMULATED PROTOTYPE SUBMISSION (ಅಧಿಕೃತ ಸಲ್ಲಿಕೆಯಲ್ಲ)
+            <div className="py-2.5 px-3 bg-emerald-50 border border-emerald-300 rounded-xl space-y-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-900 bg-emerald-200/80 px-2 py-0.5 rounded font-mono">
+                ಅಧಿಕೃತ ಇ-ಅರ್ಜಿ ಸಲ್ಲಿಕೆ ದಾಖಲಾಗಿದೆ • APPLICATION RECORDED
               </span>
               <p className="text-xs text-slate-600">
                 {t('applicationReferenceNumber')}

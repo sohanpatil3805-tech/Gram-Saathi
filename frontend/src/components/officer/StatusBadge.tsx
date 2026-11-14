@@ -20,32 +20,32 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'md' })
         return {
           bg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
           icon: CheckCircle2,
-          label: 'ಡೆಮೊ ಅನುಮೋದನೆ [Demo Approved]',
+          label: 'ಅನುಮೋದಿಸಲಾಗಿದೆ [Approved]',
         };
       case 'REJECTED':
         return {
           bg: 'bg-rose-50 text-rose-800 border-rose-200',
           icon: XCircle,
-          label: 'ಡೆಮೊ ತಿರಸ್ಕಾರ [Demo Rejected]',
+          label: 'ತಿರಸ್ಕರಿಸಲಾಗಿದೆ [Rejected]',
         };
       case 'NEEDS_CORRECTION':
         return {
           bg: 'bg-amber-50 text-amber-800 border-amber-200',
           icon: AlertTriangle,
-          label: 'ತಿದ್ದುಪಡಿ ಅಗತ್ಯ [Demo Correction]',
+          label: 'ತಿದ್ದುಪಡಿ ಅಗತ್ಯವಿದೆ [Action Required]',
         };
       case 'OFFICER_REVIEW':
         return {
           bg: 'bg-blue-50 text-blue-800 border-blue-200',
           icon: Clock,
-          label: 'ಡೆಮೊ ಪರಿಶೀಲನೆಯಲ್ಲಿದೆ [Demo Review]',
+          label: 'ಅಧಿಕಾರಿ ಪರಿಶೀಲನೆಯಲ್ಲಿದೆ [Under Review]',
         };
       case 'SUBMITTED':
       default:
         return {
           bg: 'bg-slate-100 text-slate-800 border-slate-200',
           icon: FileText,
-          label: 'ಸಿಮ್ಯುಲೇಟೆಡ್ ಸಲ್ಲಿಕೆ [Simulated]',
+          label: 'ಸಲ್ಲಿಕೆಯಾಗಿದೆ [Submitted]',
         };
     }
   };

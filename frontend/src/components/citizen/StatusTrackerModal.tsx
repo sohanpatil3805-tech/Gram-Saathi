@@ -10,7 +10,7 @@ import {
   ArrowRight,
   ShieldCheck 
 } from 'lucide-react';
-import { mockService } from '../../services/mockService';
+import { api } from '../../services/api';
 import { ApplicationRecord } from '../../types/officer';
 
 interface StatusTrackerModalProps {
@@ -37,7 +37,7 @@ export const StatusTrackerModal: React.FC<StatusTrackerModalProps> = ({
     setIsSearching(true);
     setHasSearched(true);
     try {
-      const app = await mockService.getOfficerApplicationById(refInput.trim());
+      const app = await api.getOfficerApplicationById(refInput.trim());
       setCurrentApp(app || null);
     } catch {
       setCurrentApp(null);

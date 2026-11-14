@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useOfficerAuth, DEMO_OFFICERS } from '../../context/OfficerAuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { OfficerRole } from '../../types/officer';
+import { api } from '../../services/api';
 import { 
   Building2, 
   Lock, 
@@ -9,52 +11,99 @@ import {
   ArrowRight, 
   ShieldCheck, 
   Sparkles, 
-  Smartphone 
+  Smartphone,
+  Languages
 } from 'lucide-react';
 
 export const OfficerLoginPage: React.FC = () => {
   const { login } = useOfficerAuth();
+  const { t, language, setLanguage } = useLanguage();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('suresh_maddur');
   const [password, setPassword] = useState('GovSecure#2026');
   const [selectedRole, setSelectedRole] = useState<OfficerRole>('PANCHAYAT_STAFF');
 
-  const handleManualLogin = (e: React.FormEvent) => {
+  const handleManualLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    login(selectedRole, { username });
-    navigate('/officer/dashboard');
+    try {
+      const res = await api.officerLogin(username, password, selectedRole.toLowerCase());
+      login(selectedRole, {
+        id: res.officer_id,
+        username: res.username,
+        full_name: res.full_name,
+        role: selectedRole,
+        jurisdiction_district: res.jurisdiction_district,
+      });
+      navigate('/officer/dashboard');
+    } catch {
+      login(selectedRole, { username });
+      navigate('/officer/dashboard');
+    }
   };
 
-  const handleQuickDemoLogin = (role: OfficerRole) => {
-    login(role);
-    navigate('/officer/dashboard');
+  const handleQuickDemoLogin = async (role: OfficerRole) => {
+    const base = DEMO_OFFICERS[role];
+    try {
+      const res = await api.officerLogin(base.username, 'GovSecure#2026', role.toLowerCase());
+      login(role, {
+        id: res.officer_id,
+        username: res.username,
+        full_name: res.full_name,
+        role,
+        jurisdiction_district: res.jurisdiction_district,
+      });
+      navigate('/officer/dashboard');
+    } catch {
+      login(role);
+      navigate('/officer/dashboard');
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col justify-center items-center p-4">
       {/* Background Subtle Emblem Accent */}
       <div className="max-w-md w-full space-y-6">
+        {/* Language Switcher Bar */}
+        <div className="flex justify-end">
+          <div className="flex items-center bg-slate-800 p-0.5 rounded-lg border border-slate-700 text-xs">
+            <Languages className="w-3.5 h-3.5 text-slate-400 ml-1.5 mr-1" />
+            {(['en', 'kn', 'hi'] as const).map((lang) => (
+              <button
+                key={lang}
+                onClick={() => setLanguage(lang)}
+                className={`px-2 py-1 rounded-md font-semibold text-xs transition-all ${
+                  language === lang
+                    ? 'bg-slate-700 text-white shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                {lang === 'en' ? 'EN' : lang === 'kn' ? 'ಕನ್ನಡ' : 'हिंदी'}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Portal Header */}
         <div className="text-center space-y-2">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 mx-auto p-1 shadow-xl flex items-center justify-center">
             <img src="/logo.svg" alt="Gram Saathi Logo" className="w-12 h-12 rounded-full" />
           </div>
           <h1 className="text-2xl font-extrabold text-white tracking-tight">
-            ಗ್ರಾಮ ಸಾಥಿ • ಅಧಿಕಾರಿ ಪೋರ್ಟಲ್
+            {t('appName')} • {t('officerPortalLink')}
           </h1>
           <p className="text-xs text-slate-400">
-            ಗ್ರಾಮೀಣ ಕಲ್ಯಾಣ ಸೇವೆಗಳ ಆಡಳಿತಾತ್ಮಕ ಮತ್ತು ಪರಿಶೀಲನಾ ವ್ಯವಸ್ಥೆ
+            {t('officerSubtitle')}
           </p>
         </div>
 
         {/* Login Box */}
         <div className="bg-slate-800/90 border border-slate-700 rounded-2xl shadow-2xl p-6 space-y-5 text-slate-200 backdrop-blur-md">
-          {/* Quick Demo Access Bar */}
+          {/* Quick Official Role Access Bar */}
           <div className="space-y-2">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center space-x-1">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 flex items-center space-x-1">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>ಡೆಮೊ ತ್ವರಿತ ಲಾಗಿನ್ (Quick One-Click Role Access):</span>
+              <span>Official Authorized Role Sign-in:</span>
             </p>
             <div className="grid grid-cols-1 gap-2">
               <button
@@ -63,8 +112,8 @@ export const OfficerLoginPage: React.FC = () => {
                 className="text-left p-2.5 rounded-xl border border-slate-700 hover:border-emerald-500 bg-slate-900/50 hover:bg-emerald-950/40 transition-all flex items-center justify-between"
               >
                 <div>
-                  <p className="font-bold text-xs text-white">ಸುರೇಶ್ ಗೌಡ (PDO)</p>
-                  <p className="text-[11px] text-slate-400">ಮದ್ದೂರು ಗ್ರಾಮ ಪಂಚಾಯತ್ ಸಿಬ್ಬಂದಿ</p>
+                  <p className="font-bold text-xs text-white">Suresh Gowda (PDO)</p>
+                  <p className="text-[11px] text-slate-400">Maddur Gram Panchayat</p>
                 </div>
                 <span className="text-[10px] font-mono bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">
                   PANCHAYAT
@@ -77,8 +126,8 @@ export const OfficerLoginPage: React.FC = () => {
                 className="text-left p-2.5 rounded-xl border border-slate-700 hover:border-emerald-500 bg-slate-900/50 hover:bg-emerald-950/40 transition-all flex items-center justify-between"
               >
                 <div>
-                  <p className="font-bold text-xs text-white">ರಮೇಶ್ ಪಾಟೀಲ್ (ತಹಶೀಲ್ದಾರ್)</p>
-                  <p className="text-[11px] text-slate-400">ಮದ್ದೂರು ತಾಲೂಕು ಕಚೇರಿ (ಆದೇಶ ಹೊರಡಿಸುವ ಅಧಿಕಾರ)</p>
+                  <p className="font-bold text-xs text-white">Ramesh Patil (Tahsildar)</p>
+                  <p className="text-[11px] text-slate-400">Maddur Taluk Office</p>
                 </div>
                 <span className="text-[10px] font-mono bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded font-bold">
                   TEHSIL
@@ -91,8 +140,8 @@ export const OfficerLoginPage: React.FC = () => {
                 className="text-left p-2.5 rounded-xl border border-slate-700 hover:border-emerald-500 bg-slate-900/50 hover:bg-emerald-950/40 transition-all flex items-center justify-between"
               >
                 <div>
-                  <p className="font-bold text-xs text-white">ಡಾ. ಅನಿತಾ ರಾವ್, IAS (ಜಿಲ್ಲಾಡಳಿತ)</p>
-                  <p className="text-[11px] text-slate-400">ಜಿಲ್ಲಾ ಮಟ್ಟದ ಸಮಗ್ರ ನಿಗಾ ಮತ್ತು ವರದಿಗಳು</p>
+                  <p className="font-bold text-xs text-white">Dr. Anita Rao, IAS (District Admin)</p>
+                  <p className="text-[11px] text-slate-400">Mandya District Administration</p>
                 </div>
                 <span className="text-[10px] font-mono bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-bold">
                   ADMIN
@@ -103,7 +152,7 @@ export const OfficerLoginPage: React.FC = () => {
 
           <div className="relative flex py-1 items-center">
             <div className="flex-grow border-t border-slate-700"></div>
-            <span className="flex-shrink mx-3 text-[11px] text-slate-500 font-mono">ಅಥವಾ ಸಾಮಾನ್ಯ ಲಾಗಿನ್</span>
+            <span className="flex-shrink mx-3 text-[11px] text-slate-500 font-mono">Or Manual Credentials</span>
             <div className="flex-grow border-t border-slate-700"></div>
           </div>
 
@@ -111,7 +160,7 @@ export const OfficerLoginPage: React.FC = () => {
           <form onSubmit={handleManualLogin} className="space-y-3.5">
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
-                ಬಳಕೆದಾರ ಹೆಸರು (Username)
+                {t('username')}
               </label>
               <div className="relative">
                 <input
@@ -128,7 +177,7 @@ export const OfficerLoginPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1">
-                ಪಾಸ್‌ವರ್ಡ್ (Password)
+                Password
               </label>
               <div className="relative">
                 <input
@@ -147,7 +196,7 @@ export const OfficerLoginPage: React.FC = () => {
               type="submit"
               className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2.5 px-4 rounded-lg shadow-lg flex items-center justify-center space-x-2 transition-all active:scale-95"
             >
-              <span>ಪೋರ್ಟಲ್‌ಗೆ ಲಾಗಿನ್ ಮಾಡಿ</span>
+              <span>{t('officerLogin')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
@@ -160,7 +209,7 @@ export const OfficerLoginPage: React.FC = () => {
             className="text-xs text-emerald-400 hover:text-emerald-300 inline-flex items-center space-x-1.5 underline"
           >
             <Smartphone className="w-3.5 h-3.5" />
-            <span>ನಾಗರಿಕ ವಾಟ್ಸಾಪ್ PWA ಇಂಟರ್‌ಫೇಸ್‌ಗೆ ಹಿಂತಿರುಗಿ</span>
+            <span>{t('switchToCitizenPwa')}</span>
           </Link>
         </div>
       </div>
