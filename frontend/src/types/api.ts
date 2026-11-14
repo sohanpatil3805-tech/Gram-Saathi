@@ -322,6 +322,9 @@ export interface ApplicantProfile {
   full_name?: string;
   village?: string;
   annual_income?: number;
+  caste_category?: string;
+  academic_score?: string;
+  institution?: string;
 }
 
 export type DocumentTypeCode = 

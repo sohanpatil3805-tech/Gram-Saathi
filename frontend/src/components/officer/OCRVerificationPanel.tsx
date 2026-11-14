@@ -273,6 +273,3 @@ export const OCRVerificationPanel: React.FC<OCRVerificationPanelProps> = ({
     </div>
   );
 };
-    </div>
-  );
-};

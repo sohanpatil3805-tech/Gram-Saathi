@@ -166,7 +166,9 @@ export const OfficerApplicationsPage: React.FC = () => {
                       <td className="px-4 py-3.5 text-slate-600 dark:text-slate-300">
                         <p className="font-medium capitalize">{app.applicant.citizen_group}</p>
                         <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                          {app.applicant.land_holding_acres ? `${app.applicant.land_holding_acres} Acres` : 'N/A'}
+                          {String(app.applicant.citizen_group).toLowerCase().includes('student')
+                            ? (app.applicant.education_level || 'Student Scholar')
+                            : app.applicant.land_holding_acres ? `${app.applicant.land_holding_acres} Acres` : 'Land: N/A'}
                         </p>
                       </td>
                       <td className="px-4 py-3.5 text-slate-500 dark:text-slate-400 font-mono text-[11px]">

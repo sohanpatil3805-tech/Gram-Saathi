@@ -53,7 +53,7 @@ def test_setup(tmp_path):
     citizen = Citizen(
         id=uuid.uuid4(),
         phone_number="+919876543210",
-        full_name="Priya Sharma",
+        name="Priya Sharma",
         preferred_language="kn",
         citizen_group="student",
         district="Mandya",
@@ -64,7 +64,7 @@ def test_setup(tmp_path):
         id=uuid.uuid4(),
         citizen_id=citizen.id,
         scheme_id="SSP_POST_MATRIC_BCM",
-        status="DRAFT",
+        current_status="draft",
         applicant_data={"beneficiary_group": "student"},
     )
     db.add(application)
